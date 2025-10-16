@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
-import { useDarkMode } from '../context/Darkmodecontext';
 import { useLanguage } from '../context/LanguageContext';
 import { FaMobileAlt, FaAndroid, FaApple } from 'react-icons/fa';
 import video from "../images/mobile.mp4"
-
+import image from "../images/lmss4.jpg"
 const translations = {
   en: {
     heroTitle: "Master Mobile Development with Industry Experts",
@@ -232,10 +231,28 @@ const translations = {
 
 const Mobiledevelopment = () => {
   const navigate = useNavigate();
-  const { darkMode } = useDarkMode();
   const { language } = useLanguage();
   const t = translations[language] || translations["en"];
   const [flippedCards, setFlippedCards] = useState([]);
+  const [darkMode, setDarkMode] = useState(false);
+
+  useEffect(() => {
+    const theme = localStorage.getItem("theme");
+    setDarkMode(theme === "dark");
+    
+    const handleThemeChange = () => {
+      const currentTheme = localStorage.getItem("theme");
+      setDarkMode(currentTheme === "dark");
+    };
+
+    window.addEventListener("storage", handleThemeChange);
+    window.addEventListener("themeChange", handleThemeChange);
+
+    return () => {
+      window.removeEventListener("storage", handleThemeChange);
+      window.removeEventListener("themeChange", handleThemeChange);
+    };
+  }, []);
 
   useEffect(() => {
     if (language === "ar" || language === "he") {
@@ -283,13 +300,13 @@ const Mobiledevelopment = () => {
       </div>
 
       {/* Mobile Development Courses Section */}
-      <section className={`py-16 ${darkMode ? "bg-gray-900" : "bg-gray-50"}`}>
+      <section className={`py-16 ${darkMode ? "bg-black" : "bg-gray-50"}`}>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col lg:flex-row gap-12 items-center">
             <div className="flex-1">
               <div className="rounded-2xl overflow-hidden shadow-2xl">
                 <img
-                  src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80"
+                  src={image}
                   alt="Mobile app development"
                   className="w-full h-64 lg:h-96 object-cover"
                 />
@@ -321,40 +338,36 @@ const Mobiledevelopment = () => {
             {t.cards.map((card, idx) => (
               <div 
                 key={idx}
-                className="relative h-96 cursor-pointer"
+                className="relative h-72 cursor-pointer"
                 onClick={() => handleCardFlip(idx)}
               >
                 <div className={`absolute inset-0 w-full h-full transition-all duration-500 transform ${
                   flippedCards.includes(idx) ? 'rotate-y-180 opacity-0' : 'opacity-100'
                 }`}>
-                  <div className={`h-full rounded-2xl p-6 flex flex-col items-center justify-center text-center border-2 ${
+                  <div className={`h-full rounded-2xl p-4 flex flex-col items-center justify-center text-center border-2 ${
                     darkMode ? "bg-gray-800 border-sky-500" : "bg-sky-50 border-sky-200"
                   }`}>
-                    {idx === 0 && <FaMobileAlt className="text-5xl text-sky-500 mb-4" />}
-                    {idx === 1 && <FaApple className="text-5xl text-sky-600 mb-4" />}
-                    {idx === 2 && <FaAndroid className="text-5xl text-sky-500 mb-4" />}
-                    <h3 className="text-xl font-bold mb-4">{card.frontTitle}</h3>
-                    <p className={darkMode ? "text-gray-300" : "text-gray-600"}>
+                    {idx === 0 && <FaMobileAlt className="text-3xl text-sky-500 mb-3" />}
+                    {idx === 1 && <FaApple className="text-3xl text-sky-600 mb-3" />}
+                    {idx === 2 && <FaAndroid className="text-3xl text-sky-500 mb-3" />}
+                    <h3 className="text-lg font-bold mb-3">{card.frontTitle}</h3>
+                    <p className={`text-sm leading-tight ${darkMode ? "text-gray-300" : "text-gray-600"}`}>
                       {card.frontDesc}
                     </p>
-                    <div className="mt-4 text-sm text-sky-500 font-semibold">
-                      {language === 'en' && "Click to learn more →"}
-                      {language === 'ar' && "انقر لمعرفة المزيد →"}
-                      {language === 'he' && "לחץ למידע נוסף →"}
-                    </div>
                   </div>
                 </div>
                 
                 <div className={`absolute inset-0 w-full h-full transition-all duration-500 transform ${
                   flippedCards.includes(idx) ? 'opacity-100' : 'rotate-y-180 opacity-0'
                 }`}>
-                  <div className={`h-full rounded-2xl p-6 flex flex-col items-center justify-center text-center ${
-                    darkMode ? "bg-sky-600" : "bg-sky-600 text-white"
+                  <div className={`h-full rounded-2xl p-4 flex flex-col justify-center border-2 ${
+                    darkMode ? "bg-gray-700 border-sky-400" : "bg-white border-sky-300"
                   }`}>
-                    <p className="mb-6">{card.backDesc}</p>
-                    <button className="bg-white text-sky-600 px-6 py-2 rounded-full font-semibold hover:bg-gray-100 transition-colors">
-                      {card.btn}
-                    </button>
+                    <h3 className="text-lg font-bold text-sky-600 mb-3">{card.backTitle}</h3>
+                    <p className={`text-sm leading-tight mb-4 ${darkMode ? "text-gray-300" : "text-gray-600"}`}>
+                      {card.backDesc}
+                    </p>
+                    
                   </div>
                 </div>
               </div>
@@ -364,7 +377,7 @@ const Mobiledevelopment = () => {
       </section>
 
       {/* Student Success Spotlight */}
-      <section className={`py-16 ${darkMode ? "bg-gray-900" : "bg-gray-50"}`}>
+      <section className={`py-16 ${darkMode ? "bg-black" : "bg-gray-50"}`}>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col lg:flex-row gap-12 items-center">
             <div className="flex-1">
@@ -420,10 +433,13 @@ const Mobiledevelopment = () => {
             
             <div className="flex-1">
               <div className="rounded-2xl overflow-hidden shadow-2xl">
-                <img
-                  src="https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1174&q=80"
-                  alt="Mobile developer working"
+                <video
+                  src={video}
                   className="w-full h-96 object-cover"
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
                 />
               </div>
             </div>
@@ -445,15 +461,15 @@ const Mobiledevelopment = () => {
             {t.processSteps.map((step, idx) => (
               <div 
                 key={idx}
-                className={`text-center p-6 rounded-2xl transition-all duration-300 hover:transform hover:scale-105 ${
+                className={`text-center p-4 rounded-2xl transition-all duration-300 hover:transform hover:scale-105 ${
                   darkMode ? "bg-gray-800 hover:bg-gray-700" : "bg-sky-50 hover:bg-sky-100"
                 }`}
               >
-                <div className="w-16 h-16 bg-sky-500 text-white rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-4">
+                <div className="w-12 h-12 bg-sky-500 text-white rounded-full flex items-center justify-center text-lg font-bold mx-auto mb-3">
                   {step.step}
                 </div>
-                <h3 className="text-xl font-bold mb-4">{step.title}</h3>
-                <p className={darkMode ? "text-gray-300" : "text-gray-600"}>
+                <h3 className="text-lg font-bold mb-3">{step.title}</h3>
+                <p className={`text-sm ${darkMode ? "text-gray-300" : "text-gray-600"}`}>
                   {step.desc}
                 </p>
               </div>
@@ -463,7 +479,7 @@ const Mobiledevelopment = () => {
       </section>
 
       {/* CTA Section */}
-      <section className={`py-16 ${darkMode ? "bg-gray-900" : "bg-gradient-to-br from-sky-50 to-sky-100"}`}>
+      <section className={`py-16 ${darkMode ? "bg-black" : "bg-gradient-to-br from-sky-50 to-sky-100"}`}>
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">{t.ctaHeading}</h2>
           <p className={`text-xl mb-8 max-w-2xl mx-auto ${

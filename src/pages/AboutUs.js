@@ -4,6 +4,10 @@ import vision from "../images/ai-vision.jpg"; // Replace with your actual image 
 // Replace with your actual video file path
 import aboutvideo from "../images/aboutlms.mp4";
 import { useNavigate } from "react-router-dom";
+import img1 from "../images/lmss1.jpg"; // Replace with your actual image file path
+import img2 from "../images/lmss2.jpg"; // Replace with your actual image file path 
+import img3 from "../images/lmss3.jpg"; // Replace with your actual image file path
+import img4 from "../images/lmss4.jpg"; // Replace with your actual image file path
 import { 
   Twitter, 
   Linkedin, 
@@ -19,7 +23,10 @@ import {
   Target, 
   Rocket, 
   Sparkles, 
-  Clock
+  Clock,
+  X,
+  Phone,
+  User
 } from 'lucide-react';
 import team1 from "../images/team2.jpg"; // Replace with actual image paths
 import team2 from "../images/team3.jpg"; // Replace with actual image paths 
@@ -44,6 +51,16 @@ export default function AboutUs() {
   const [language, setLanguage] = useState(localStorage.getItem("language") || "en");
   const navigate = useNavigate();
 
+  // Enrollment Form State
+  const [isEnrollModalOpen, setIsEnrollModalOpen] = useState(false);
+  const [selectedCourse, setSelectedCourse] = useState(null);
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    course: ''
+  });
+
   useEffect(() => {
     const updateLanguage = () => setLanguage(localStorage.getItem("language") || "en");
     window.addEventListener("storage", updateLanguage);
@@ -58,12 +75,37 @@ export default function AboutUs() {
     navigate(path);
   }
 
+  const handleEnrollClick = (course) => {
+    setSelectedCourse(course);
+    setFormData(prev => ({ ...prev, course: course.title }));
+    setIsEnrollModalOpen(true);
+  }
+
+  const handleCloseModal = () => {
+    setIsEnrollModalOpen(false);
+    setSelectedCourse(null);
+    setFormData({ name: '', email: '', phone: '', course: '' });
+  }
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Handle form submission here
+    console.log('Enrollment Data:', formData);
+    alert(`Thank you ${formData.name}! Your enrollment request for "${formData.course}" has been submitted.`);
+    handleCloseModal();
+  }
+
   const courses = [
     {
       id: 1,
       title: "Advanced Web Development",
       description: "Master modern web development with React, Node.js, and MongoDB",
-      image: "🖥️",
+      image: img1,
       level: "Advanced",
       duration: "42 hours",
       students: 1240,
@@ -74,7 +116,7 @@ export default function AboutUs() {
       id: 2,
       title: "Data Science Fundamentals",
       description: "Learn data analysis, visualization, and machine learning basics",
-      image: "📊",
+      image: img2,
       level: "Intermediate",
       duration: "36 hours",
       students: 890,
@@ -85,7 +127,7 @@ export default function AboutUs() {
       id: 3,
       title: "UI/UX Design Masterclass",
       description: "Create stunning user interfaces and exceptional user experiences",
-      image: "🎨",
+      image: img3,
       level: "Beginner",
       duration: "28 hours",
       students: 1560,
@@ -96,7 +138,7 @@ export default function AboutUs() {
       id: 4,
       title: "Mobile App Development",
       description: "Build cross-platform mobile apps with React Native",
-      image: "📱",
+      image: img4,
       level: "Intermediate",
       duration: "38 hours",
       students: 720,
@@ -277,7 +319,7 @@ export default function AboutUs() {
           </motion.p>
         </div>
       </section>
-      <section className="py-20 bg-white">
+      <section className="py-20 bg-white dark:bg-black">
         <div className="container mx-auto px-6">
           {/* Header */}
           <motion.div
@@ -286,10 +328,10 @@ export default function AboutUs() {
             transition={{ duration: 0.6 }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl font-bold text-black mb-4">
+            <h2 className="text-4xl font-bold text-black mb-4 dark:text-white">
               Explore Our <span className="text-sky-600">Courses</span>
             </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto dark:text-white">
               Discover courses across various categories taught by industry experts and university partners
             </p>
           </motion.div>
@@ -327,11 +369,15 @@ export default function AboutUs() {
                 whileInView={{ opacity: 1, y: 0 }}
                 whileHover={{ y: -8 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer group"
+                className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer group dark:bg-gray-900"
               >
                 {/* Course Image */}
-                <div className="h-48 bg-gradient-to-r from-sky-500 to-sky-600 flex items-center justify-center text-6xl">
-                  {course.image}
+                <div className="h-48 overflow-hidden">
+                  <img 
+                    src={course.image} 
+                    alt={course.title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
                 </div>
 
                 {/* Course Content */}
@@ -346,15 +392,15 @@ export default function AboutUs() {
                     </div>
                   </div>
 
-                  <h3 className="text-xl font-bold text-black mb-2 group-hover:text-sky-600 transition-colors">
+                  <h3 className="text-xl font-bold text-black mb-2 group-hover:text-sky-600 transition-colors dark:text-white">
                     {course.title}
                   </h3>
-                  <p className="text-gray-600 mb-4 line-clamp-2">
+                  <p className="text-gray-600 mb-4 line-clamp-2 dark:text-white">
                     {course.description}
                   </p>
 
                   {/* Course Meta */}
-                  <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
+                  <div className="flex items-center justify-between text-sm text-gray-500 mb-4 dark:text-white">
                     <div className="flex items-center gap-1">
                       <Clock size={16} />
                       <span>{course.duration}</span>
@@ -369,6 +415,7 @@ export default function AboutUs() {
                   <motion.button
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
+                    onClick={() => handleEnrollClick(course)}
                     className="w-full bg-black text-white py-3 rounded-lg font-semibold hover:bg-sky-600 transition-colors flex items-center justify-center gap-2"
                   >
                     <BookOpen size={16} />
@@ -380,7 +427,7 @@ export default function AboutUs() {
           </motion.div>
         </div>
       </section>
-      <section ref={ref} className="py-20 relative overflow-hidden">
+      <section ref={ref} className="py-10 relative overflow-hidden">
         <div className="relative z-10 container mx-auto px-6">
           {/* Header */}
           <motion.div
@@ -399,12 +446,12 @@ export default function AboutUs() {
               <span className="text-gray-700 font-semibold">Our Journey</span>
             </motion.div>
 
-            <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
+            <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6 dark:text-white">
               The Story Behind <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-500 to-sky-600">Your Success</span>
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed dark:text-white">
               Every great learning journey has a beginning. Ours started with a simple question:
-              <span className="font-semibold text-gray-800"> How can we make world-class education accessible to everyone?</span>
+              <span className="font-semibold text-gray-800 dark:text-white"> How can we make world-class education accessible to everyone?</span>
             </p>
           </motion.div>
 
@@ -416,16 +463,16 @@ export default function AboutUs() {
               transition={{ duration: 0.8, delay: 0.3 }}
               className="space-y-6"
             >
-              <div className="bg-white/80 backdrop-blur-lg rounded-2xl p-8 border border-white/20 shadow-lg">
+              <div className="bg-white/80 backdrop-blur-lg rounded-2xl p-8 border border-white/20 shadow-lg dark:bg-gray-900 ">
                 <h3 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3">
                   <BookOpen className="text-sky-600" size={28} />
                   How It All Began
                 </h3>
-                <p className="text-gray-700 text-lg leading-relaxed mb-4">
+                <p className="text-gray-700 text-lg leading-relaxed mb-4 dark:text-white">
                   In 2015, a group of passionate educators and tech enthusiasts came together with a shared vision.
                   We were frustrated by the limitations of traditional education systems and inspired by the potential of technology to transform learning.
                 </p>
-                <p className="text-gray-700 text-lg leading-relaxed">
+                <p className="text-gray-700 text-lg leading-relaxed dark:text-white">
                   Our first course was built in a small apartment with big dreams. Today, we're proud to have helped hundreds of thousands
                   of learners worldwide achieve their goals and transform their careers.
                 </p>
@@ -439,13 +486,13 @@ export default function AboutUs() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
                     transition={{ duration: 0.6, delay: 0.5 + index * 0.1 }}
-                    className="bg-white/90 backdrop-blur-sm rounded-xl p-4 text-center border border-white/20 shadow-lg"
+                    className="bg-white/90 backdrop-blur-sm rounded-xl p-4 text-center border border-white/20 shadow-lg dark:bg-gray-900 "
                   >
-                    <div className="text-2xl font-bold text-gray-900 mb-1">
+                    <div className="text-2xl font-bold text-gray-900 mb-1 dark:text-white">
                       {stat.number}
                       <span className="text-sky-600">{stat.suffix}</span>
                     </div>
-                    <div className="text-sm text-gray-600">{stat.label}</div>
+                    <div className="text-sm text-gray-600 dark:text-white">{stat.label}</div>
                   </motion.div>
                 ))}
               </div>
@@ -465,17 +512,17 @@ export default function AboutUs() {
                   animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
                   transition={{ duration: 0.6, delay: element.delay }}
                   whileHover={{ scale: 1.02, y: -5 }}
-                  className="bg-white/80 backdrop-blur-lg rounded-2xl p-6 border border-white/20 shadow-lg cursor-pointer group"
+                  className="bg-white/80 backdrop-blur-lg rounded-2xl p-6 border border-white/20 shadow-lg cursor-pointer group dark:bg-gray-900 "
                 >
                   <div className="flex items-start gap-4">
                     <div className={`w-16 h-16 rounded-2xl bg-gradient-to-r ${element.color} flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300`}>
                       <element.icon size={28} className="text-white" />
                     </div>
                     <div>
-                      <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-sky-600 transition-colors">
+                      <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-sky-600 transition-colors dark:text-white">
                         {element.title}
                       </h3>
-                      <p className="text-gray-700 leading-relaxed">
+                      <p className="text-gray-700 leading-relaxed dark:text-white">
                         {element.description}
                       </p>
                     </div>
@@ -489,7 +536,7 @@ export default function AboutUs() {
           
         </div>
       </section>
-      <section ref={ref} className="py-20 bg-gradient-to-br from-black to-gray-900 relative overflow-hidden">
+      <section ref={ref} className="py-20 bg-black relative overflow-hidden">
       {/* Background Elements */}
       <div className="absolute inset-0 opacity-10">
         <div className="absolute top-20 left-20 w-96 h-96 bg-sky-400 rounded-full mix-blend-multiply filter blur-3xl animate-pulse"></div>
@@ -697,6 +744,166 @@ export default function AboutUs() {
         </motion.div>
       </div>
     </section>
+
+    {/* Enrollment Modal */}
+    <AnimatePresence>
+      {isEnrollModalOpen && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
+          onClick={handleCloseModal}
+        >
+          <motion.div
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.9, opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="bg-white rounded-2xl p-8 max-w-md w-full max-h-[90vh] overflow-y-auto"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Modal Header */}
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-2xl font-bold text-black">
+                Enroll in Course
+              </h2>
+              <button
+                onClick={handleCloseModal}
+                className="text-gray-500 hover:text-black transition-colors"
+              >
+                <X size={24} />
+              </button>
+            </div>
+
+            {/* Selected Course Info */}
+            {selectedCourse && (
+              <div className="mb-6 p-4 bg-sky-50 rounded-lg border border-sky-200">
+                <h3 className="font-semibold text-black mb-1">
+                  {selectedCourse.title}
+                </h3>
+                <p className="text-sm text-gray-600 mb-2">
+                  {selectedCourse.description}
+                </p>
+                <div className="flex items-center gap-4 text-sm text-gray-500">
+                  <div className="flex items-center gap-1">
+                    <Clock size={14} />
+                    <span>{selectedCourse.duration}</span>
+                  </div>
+                  <span className="px-2 py-1 bg-sky-100 text-sky-600 rounded-full text-xs">
+                    {selectedCourse.level}
+                  </span>
+                </div>
+              </div>
+            )}
+
+            {/* Enrollment Form */}
+            <form onSubmit={handleSubmit} className="space-y-4">
+              {/* Name Field */}
+              <div>
+                <label htmlFor="name" className="block text-sm font-medium text-black mb-2">
+                  Full Name *
+                </label>
+                <div className="relative">
+                  <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleInputChange}
+                    required
+                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500 outline-none transition-colors"
+                    placeholder="Enter your full name"
+                  />
+                </div>
+              </div>
+
+              {/* Email Field */}
+              <div>
+                <label htmlFor="email" className="block text-sm font-medium text-black mb-2">
+                  Email Address *
+                </label>
+                <div className="relative">
+                  <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    required
+                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500 outline-none transition-colors"
+                    placeholder="Enter your email address"
+                  />
+                </div>
+              </div>
+
+              {/* Phone Field */}
+              <div>
+                <label htmlFor="phone" className="block text-sm font-medium text-black mb-2">
+                  Phone Number *
+                </label>
+                <div className="relative">
+                  <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+                  <input
+                    type="tel"
+                    id="phone"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleInputChange}
+                    required
+                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500 outline-none transition-colors"
+                    placeholder="Enter your phone number"
+                  />
+                </div>
+              </div>
+
+              {/* Course Field (Read-only) */}
+              <div>
+                <label htmlFor="course" className="block text-sm font-medium text-black mb-2">
+                  Course
+                </label>
+                <div className="relative">
+                  <BookOpen className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+                  <input
+                    type="text"
+                    id="course"
+                    name="course"
+                    value={formData.course}
+                    readOnly
+                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg bg-gray-50 text-gray-700"
+                  />
+                </div>
+              </div>
+
+              {/* Submit Buttons */}
+              <div className="flex gap-3 pt-4">
+                <button
+                  type="button"
+                  onClick={handleCloseModal}
+                  className="flex-1 px-6 py-3 border border-gray-300 text-black rounded-lg font-semibold hover:bg-gray-50 transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="flex-1 px-6 py-3 bg-black text-white rounded-lg font-semibold hover:bg-sky-600 transition-colors"
+                >
+                  Submit Enrollment
+                </button>
+              </div>
+            </form>
+
+            {/* Additional Info */}
+            <p className="mt-4 text-xs text-gray-500 text-center">
+              By submitting this form, you agree to our terms and conditions. 
+              We'll contact you within 24 hours to confirm your enrollment.
+            </p>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
 
     </div>
   );

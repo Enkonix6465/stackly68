@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useDarkMode } from "../context/Darkmodecontext";
 import { useLanguage } from "../context/LanguageContext";
 import video from "../images/serviceslms.mp4"
 import img1 from "../images/lmss1.jpg";
@@ -102,7 +101,32 @@ const translations = {
     ],
     ctaHeading: "Ready to Start Your Learning Journey?",
     ctaParagraph: "Join thousands of students who have transformed their careers with our courses. Your future starts now!",
-    ctaBtn: "Explore All Courses"
+    ctaBtn: "Explore All Courses",
+    
+    // Online Course Provider Section
+    onlineProviderHeading: "Leading Online Course Provider",
+    onlineProviderIntro: "We're transforming education with innovative online learning solutions that deliver real results.",
+    studentsEnrolled: "Students Enrolled",
+    coursesAvailable: "Courses Available",
+    instructors: "Expert Instructors",
+    successRate: "Success Rate",
+    onlineProviderFeatures: [
+      {
+        title: "Interactive Learning",
+        description: "Engage with hands-on projects and real-world scenarios",
+        icon: "💻"
+      },
+      {
+        title: "24/7 Access",
+        description: "Learn anytime, anywhere with lifetime course access",
+        icon: "⏰"
+      },
+      {
+        title: "Expert Support",
+        description: "Get help from industry professionals and mentors",
+        icon: "🎓"
+      }
+    ]
   },
   ar: {
     heroTitle: "تعلم بلا حدود - ابدأ رحلتك اليوم",
@@ -290,16 +314,174 @@ const translations = {
     ],
     ctaHeading: "מוכן להתחיל את מסע הלמידה?",
     ctaParagraph: "הצטרפו לאלפי סטודנטים ששינו את הקריירה שלהם עם הקורסים שלנו. העתיד שלכם מתחיל עכשיו!",
-    ctaBtn: "גלו את כל הקורסים"
+    ctaBtn: "גלו את כל הקורסים",
+    
+    // Online Course Provider Section
+    onlineProviderHeading: "ספק קורסים מקוונים מוביל",
+    onlineProviderIntro: "אנחנו משנים את החינוך עם פתרונות למידה מקוונים חדשניים שמספקים תוצאות אמיתיות.",
+    studentsEnrolled: "סטודנטים רשומים",
+    coursesAvailable: "קורסים זמינים",
+    instructors: "מדריכים מומחים",
+    successRate: "אחוז הצלחה",
+    onlineProviderFeatures: [
+      {
+        title: "למידה אינטראקטיבית",
+        description: "התעסקו עם פרויקטים מעשיים ותרחישים מהעולם האמיתי",
+        icon: "💻"
+      },
+      {
+        title: "גישה 24/7",
+        description: "למדו בכל זמן ובכל מקום עם גישה לכל החיים לקורסים",
+        icon: "⏰"
+      },
+      {
+        title: "תמיכת מומחים",
+        description: "קבלו עזרה ממקצוענים ומנטורים מהתעשייה",
+        icon: "🎓"
+      }
+    ]
+  },
+  ar: {
+    heroTitle: "تعلم بلا حدود - ابدأ رحلتك اليوم",
+    heroDesc: "حول مسارك المهني من خلال دورات عالمية المستوى، مدربين خبراء، ومسارات تعلم مرنة مصممة للنجاح في العالم الحقيقي.",
+    getStarted: "ابدأ الآن",
+    learnMore: "استكشف الدورات",
+    ourServices: "فئات التعلم لدينا",
+    servicesIntro: "كتالوج دورات شامل عبر المجالات المطلوبة",
+    webdevTitle: "تطوير الويب",
+    webdevDesc: "أتقن تقنيات الويب الحديثة من HTML/CSS إلى الأطر المتقدمة.",
+    dataScienceTitle: "علم البيانات",
+    dataScienceDesc: "تعلم تحليل البيانات، التعلم الآلي، والذكاء الاصطناعي من خلال مشاريع عملية.",
+    designTitle: "تصميم واجهات المستخدم",
+    designDesc: "أنشئ تجارب مستخدم وواجهات مذهلة باستخدام أدوات الصناعة.",
+    mobileTitle: "تطوير التطبيقات",
+    mobileDesc: "ابنِ تطبيقات جوال متعددة المنصات باستخدام React Native و Flutter.",
+    businessTitle: "الأعمال والتسويق",
+    businessDesc: "طور الفطنة التجارية واستراتيجيات التسويق الرقمي.",
+    cybersecurityTitle: "الأمن السيبراني",
+    cybersecurityDesc: "احمِ الأنظمة والشبكات باستخدام أفضل ممارسات الأمان.",
+    explore: "استكشف",
+    getResults: "ابدأ التعلم",
+    seeExamples: "عرض المشاريع",
+    portfolioHeading: "قصص نجاح الطلاب",
+    portfolioIntro: "شاهد كيف غير طلابنا مساراتهم المهنية من خلال دوراتنا.",
+    caseStudyTag: "تحول مهني",
+    caseStudyTitle: "من مبتدئ إلى قائد تقني في 12 شهراً",
+    caseStudyChallenge: "*التحدي:* محترف في التسويق أراد الانتقال إلى المجال التقني لكنه يفتقر لخبرة البرمجة وعلاقات الصناعة.",
+    caseStudySolution: "*الحل:* من خلال برنامجنا للتطوير الشامل، اكتسب مهارات عملية، بنى portfolio، وحصل على وظيفة مطور مبتدئ تطورت إلى منصب قيادي.",
+    viewCaseStudy: "عرض قصة النجاح",
+    whyChooseHeading: "لماذا تتعلم معنا",
+    whyChooseIntro: "نجمع بين التعليم الخبير والمشاريع العملية لضمان اكتسابك مهارات جاهزة للوظائف.",
+    expertInstructors: "مدربون خبراء",
+    expertInstructorsDesc: "تعلم من محترفين في الصناعة بخبرة عملية حقيقية.",
+    projectBased: "تعلم قائم على المشاريع",
+    projectBasedDesc: "ابنِ مشاريع تستحق الـ portfolio تظهر مهاراتك.",
+    flexibleLearning: "تعلم مرن",
+    flexibleLearningDesc: "ادرس حسب سرعتك مع وصول مدى الحياة لمواد الدورة.",
+    careerSupport: "دعم مهني",
+    careerSupportDesc: "احصل على مساعدة في التحضير للوظائف، المقابلات، والتطور المهني.",
+    community: "مجتمع نابض",
+    communityDesc: "انضم إلى آلاف المتعلمين في مجتمعنا الطلابي النشط.",
+    certificate: "اعتراف صناعي",
+    certificateDesc: "احصل على شهادات تظهر خبرتك لأصحاب العمل.",
+    packagesHeading: "خطط التعلم",
+    packagesIntro: "اختر الخطة التي تناسب أسلوب تعلمك وأهدافك المهنية.",
+    starter: "التعلم الذاتي",
+    starterDesc: "مثالي للمتعلمين المستقلين الذين يريدون الدراسة في وتيرتهم الخاصة.",
+    starterFeatures: [
+      "الوصول مدى الحياة للدورات",
+      "محاضرات فيديو وتمارين",
+      "الوصول للمجتمع",
+      "شهادة إتمام"
+    ],
+    growth: "برنامج مع موجه",
+    growthDesc: "مثالي لأولئك الذين يريدون التوجيه والملاحظات الشخصية.",
+    growthFeatures: [
+      "كل ما هو موجود في التعلم الذاتي",
+      "جلسات أسبوعية مع موجه",
+      "مراجعات المشاريع",
+      "التدريب المهني",
+      "الدعم المتميز",
+      "موارد التحضير للوظائف"
+    ],
+    enterprise: "مسار مهني",
+    enterpriseDesc: "تحول مهني كامل مع دعم مكثف.",
+    enterpriseFeatures: [
+      "كل ما هو موجود في برنامج الموجه",
+      "توجيه مهني شخصي 1:1",
+      "تدريب مضمون",
+      "مساعدة في التوظيف",
+      "تحسين السيرة الذاتية و LinkedIn",
+      "التحضير للمقابلات"
+    ],
+    mostPopular: "الأكثر شعبية",
+    faqHeading: "أسئلة شائعة حول التعلم",
+    faqIntro: "احصل على إجابات للأسئلة الشائعة حول دوراتنا وتجربة التعلم.",
+    faqs: [
+      {
+        question: "كم من الوقت لدي للوصول إلى الدورات؟",
+        answer: "لديك وصول مدى الحياة لجميع مواد الدورة، بما في ذلك التحديثات المستقبلية. تعلم بوتيرتك الخاصة وراجع المحتوى متى احتجت."
+      },
+      {
+        question: "هل تقدمون دعماً مهنياً أو توظيفاً؟",
+        answer: "نعم! يشمل المسار المهني لدينا مساعدة في التوظيف، وجميع الخطط تشمل موارد مهنية. العديد من الطلاب يجدون وظائف حتى قبل إنهاء برامجهم."
+      },
+      {
+        question: "ماذا لو لم يكن لدي خبرة سابقة؟",
+        answer: "معظم دوراتنا مصممة للمبتدئين تماماً. نبدأ بالأساسيات ونبني تدريجياً نحو المفاهيم المتقدمة مع الكثير من الممارسة في الطريق."
+      }
+    ],
+    ctaHeading: "مستعد لبدء رحلة التعلم الخاصة بك؟",
+    ctaParagraph: "انضم إلى آلاف الطلاب الذين غيروا مساراتهم المهنية من خلال دوراتنا. مستقبلك يبدأ الآن!",
+    ctaBtn: "استكشف جميع الدورات",
+    
+    // Online Course Provider Section
+    onlineProviderHeading: "مقدم الدورات الرقمية الرائد",
+    onlineProviderIntro: "نحن نقوم بتحويل التعليم من خلال حلول التعلم الرقمي المبتكرة التي تحقق نتائج حقيقية.",
+    studentsEnrolled: "طالب مسجل",
+    coursesAvailable: "دورة متاحة",
+    instructors: "مدرب خبير",
+    successRate: "معدل النجاح",
+    onlineProviderFeatures: [
+      {
+        title: "التعلم التفاعلي",
+        description: "تفاعل مع المشاريع العملية والسيناريوهات الواقعية",
+        icon: "💻"
+      },
+      {
+        title: "الوصول على مدار الساعة",
+        description: "تعلم في أي وقت وأي مكان مع الوصول مدى الحياة للدورات",
+        icon: "⏰"
+      },
+      {
+        title: "دعم الخبراء",
+        description: "احصل على المساعدة من المحترفين والموجهين في الصناعة",
+        icon: "🎓"
+      }
+    ]
   }
 };
 
 const Services = () => {
-  const { darkMode } = useDarkMode();
   const navigate = useNavigate();
   const [openFaq, setOpenFaq] = useState(null);
+  const [darkMode, setDarkMode] = useState(localStorage.getItem("theme") === "dark");
   const { language } = useLanguage();
   const t = translations[language] || translations["en"];
+
+  useEffect(() => {
+    const updateTheme = () => {
+      const theme = localStorage.getItem("theme");
+      setDarkMode(theme === "dark");
+    };
+    updateTheme();
+    window.addEventListener("themeChange", updateTheme);
+    window.addEventListener("storage", updateTheme);
+    return () => {
+      window.removeEventListener("themeChange", updateTheme);
+      window.removeEventListener("storage", updateTheme);
+    };
+  }, []);
 
   const handleFaqToggle = (idx) => {
     setOpenFaq(openFaq === idx ? null : idx);
@@ -332,20 +514,7 @@ const Services = () => {
             <p className="text-xl md:text-2xl mb-8 text-gray-200">
               {t.heroDesc}
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button
-                onClick={() => handleGetStarted("/courses")}
-                className="bg-sky-600 hover:bg-sky-700 text-white px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-300 transform hover:scale-105"
-              >
-                {t.getStarted}
-              </button>
-              <button
-                onClick={() => handleGetStarted("/about")}
-                className="border-2 border-white text-white hover:bg-white hover:text-black px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-300"
-              >
-                {t.learnMore}
-              </button>
-            </div>
+            
           </div>
         </div>
       </section>
@@ -356,7 +525,9 @@ const Services = () => {
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-4 text-sky-600">
             {t.ourServices}
           </h2>
-          <p className="text-xl text-center mb-12 max-w-2xl mx-auto">
+          <p className={`text-xl text-center mb-12 max-w-2xl mx-auto ${
+            darkMode ? "text-gray-300" : "text-gray-600"
+          }`}>
             {t.servicesIntro}
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -367,7 +538,7 @@ const Services = () => {
               <img src={img1} alt={t.webdevTitle} className="w-full h-65 object-cover" />
               <div className="p-6">
                 <h3 className="text-xl font-bold mb-3 text-sky-600">{t.webdevTitle}</h3>
-                <p className="mb-4">{t.webdevDesc}</p>
+                <p className={`mb-4 ${darkMode ? "text-gray-300" : "text-gray-600"}`}>{t.webdevDesc}</p>
                 <button
                   onClick={() => handleGetStarted("/webdevelopment")}
                   className="w-full bg-sky-600 hover:bg-sky-700 text-white py-3 rounded-lg font-semibold transition-colors"
@@ -384,7 +555,7 @@ const Services = () => {
               <img src={img2} alt={t.dataScienceTitle} className="w-full h-65 object-cover" />
               <div className="p-6">
                 <h3 className="text-xl font-bold mb-3 text-sky-600">{t.dataScienceTitle}</h3>
-                <p className="mb-4">{t.dataScienceDesc}</p>
+                <p className={`mb-4 ${darkMode ? "text-gray-300" : "text-gray-600"}`}>{t.dataScienceDesc}</p>
                 <button
                   onClick={() => handleGetStarted("/datascience")}
                   className="w-full bg-sky-600 hover:bg-sky-700 text-white py-3 rounded-lg font-semibold transition-colors"
@@ -401,7 +572,7 @@ const Services = () => {
               <img src={img3} alt={t.designTitle} className="w-full h-65 object-cover" />
               <div className="p-6">
                 <h3 className="text-xl font-bold mb-3 text-sky-600">{t.designTitle}</h3>
-                <p className="mb-4">{t.designDesc}</p>
+                <p className={`mb-4 ${darkMode ? "text-gray-300" : "text-gray-600"}`}>{t.designDesc}</p>
                 <button
                   onClick={() => handleGetStarted("/uidesign")}
                   className="w-full bg-sky-600 hover:bg-sky-700 text-white py-3 rounded-lg font-semibold transition-colors"
@@ -418,7 +589,7 @@ const Services = () => {
               <img src={img4} alt={t.mobileTitle} className="w-full h-65 object-cover" />
               <div className="p-6">
                 <h3 className="text-xl font-bold mb-3 text-sky-600">{t.mobileTitle}</h3>
-                <p className="mb-4">{t.mobileDesc}</p>
+                <p className={`mb-4 ${darkMode ? "text-gray-300" : "text-gray-600"}`}>{t.mobileDesc}</p>
                 <button
                   onClick={() => handleGetStarted("/mobiledevelopment")}
                   className="w-full bg-sky-600 hover:bg-sky-700 text-white py-3 rounded-lg font-semibold transition-colors"
@@ -435,7 +606,7 @@ const Services = () => {
               <img src={img5} alt={t.businessTitle} className="w-full h-65 object-cover" />
               <div className="p-6">
                 <h3 className="text-xl font-bold mb-3 text-sky-600">{t.businessTitle}</h3>
-                <p className="mb-4">{t.businessDesc}</p>
+                <p className={`mb-4 ${darkMode ? "text-gray-300" : "text-gray-600"}`}>{t.businessDesc}</p>
                 <button
                   onClick={() => handleGetStarted("/business-marketing")}
                   className="w-full bg-sky-600 hover:bg-sky-700 text-white py-3 rounded-lg font-semibold transition-colors"
@@ -452,7 +623,7 @@ const Services = () => {
               <img src={img6} alt={t.cybersecurityTitle} className="w-full h-65 object-cover" />
               <div className="p-6">
                 <h3 className="text-xl font-bold mb-3 text-sky-600">{t.cybersecurityTitle}</h3>
-                <p className="mb-4">{t.cybersecurityDesc}</p>
+                <p className={`mb-4 ${darkMode ? "text-gray-300" : "text-gray-600"}`}>{t.cybersecurityDesc}</p>
                 <button
                   onClick={() => handleGetStarted("/cybersecurity")}
                   className="w-full bg-sky-600 hover:bg-sky-700 text-white py-3 rounded-lg font-semibold transition-colors"
@@ -465,52 +636,133 @@ const Services = () => {
         </div>
       </section>
 
-      {/* Portfolio & Case Studies Section */}
-      <section className={`py-20 ${darkMode ? "bg-black" : "bg-gray-50"}`}>
+      {/* Online Course Provider Section */}
+      <section className={`py-20 ${darkMode ? "bg-black" : "bg-white"}`}>
         <div className="container mx-auto px-4">
-          <div className="max-w-6xl mx-auto">
-            <h2 className="text-3xl md:text-4xl font-bold text-center mb-4 text-sky-600">
-              {t.portfolioHeading}
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-sky-600">
+              {t.onlineProviderHeading}
             </h2>
-            <p className="text-xl text-center mb-12 max-w-2xl mx-auto">
-              {t.portfolioIntro}
-            </p>
-            <div className={`rounded-2xl overflow-hidden shadow-xl ${
-              darkMode ? "bg-gray-800" : "bg-white"
+            <p className={`text-xl max-w-3xl mx-auto ${
+              darkMode ? "text-gray-300" : "text-gray-600"
             }`}>
-              <div className="md:flex">
-                <img
-                  src="/images/student-success.jpg"
-                  alt="Student success story"
-                  className="w-full md:w-1/2 h-96 object-cover"
-                />
-                <div className="p-8 md:w-1/2">
-                  <span className="inline-block bg-sky-600 text-white px-4 py-2 rounded-full text-sm font-semibold mb-4">
-                    {t.caseStudyTag}
-                  </span>
-                  <h3 className="text-2xl font-bold mb-4">{t.caseStudyTitle}</h3>
-                  <p className="mb-4 leading-relaxed">{t.caseStudyChallenge}</p>
-                  <p className="mb-6 leading-relaxed">{t.caseStudySolution}</p>
-                  <button
-                    onClick={() => handleGetStarted("/success-stories")}
-                    className="bg-sky-600 hover:bg-sky-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
-                  >
-                    {t.viewCaseStudy}
-                  </button>
+              {t.onlineProviderIntro}
+            </p>
+          </div>
+
+          {/* Interactive Learning Journey */}
+          <div className="mb-16">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {/* Real-time Learning */}
+              <div className={`p-6 rounded-2xl ${darkMode ? "bg-black" : "bg-white"} border border-sky-400`}>
+                <div className="flex items-center mb-3">
+                  <div className="w-3 h-3 bg-sky-500 rounded-full animate-pulse mr-2"></div>
+                  <span className="text-sm font-semibold text-sky-600">Live Now</span>
+                </div>
+                <div className="text-2xl font-bold text-sky-600 mb-1">247</div>
+                <div className={`text-sm ${darkMode ? "text-gray-300" : "text-gray-600"}`}>Students Learning Right Now</div>
+              </div>
+
+              {/* Career Transformations */}
+              <div className={`p-6 rounded-2xl ${darkMode ? "bg-black" : "bg-white"} border border-sky-400`}>
+                <div className="flex items-center mb-3">
+                  <div className="text-sky-500 mr-2">🚀</div>
+                  <span className="text-sm font-semibold text-sky-600">Career Boost</span>
+                </div>
+                <div className="text-2xl font-bold text-sky-600 mb-1">3.2x</div>
+                <div className={`text-sm ${darkMode ? "text-gray-300" : "text-gray-600"}`}>Average Salary Increase</div>
+              </div>
+
+              {/* Global Reach */}
+              <div className={`p-6 rounded-2xl ${darkMode ? "bg-black" : "bg-white"} border border-sky-400`}>
+                <div className="flex items-center mb-3">
+                  <div className="text-sky-500 mr-2">🌍</div>
+                  <span className="text-sm font-semibold text-sky-600">Global Impact</span>
+                </div>
+                <div className="text-2xl font-bold text-sky-600 mb-1">120+</div>
+                <div className={`text-sm ${darkMode ? "text-gray-300" : "text-gray-600"}`}>Countries Represented</div>
+              </div>
+
+              {/* Innovation Index */}
+              <div className={`p-6 rounded-2xl ${darkMode ? "bg-black" : "bg-white"} border border-sky-400`}>
+                <div className="flex items-center mb-3">
+                  <div className="text-sky-500 mr-2">⚡</div>
+                  <span className="text-sm font-semibold text-sky-600">Fresh Content</span>
+                </div>
+                <div className="text-2xl font-bold text-sky-600 mb-1">Weekly</div>
+                <div className={`text-sm ${darkMode ? "text-gray-300" : "text-gray-600"}`}>New Courses & Updates</div>
+              </div>
+            </div>
+
+            {/* Learning Progress Visualization */}
+            <div className={`mt-8 p-6 rounded-2xl ${darkMode ? "bg-black" : "bg-white"} shadow-lg border border-sky-400`}>
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-lg font-semibold text-sky-600">Community Learning Progress Today</h3>
+                <div className={`text-sm text-sky-500 ${darkMode ? "text-sky-400" : ""}`}>Updated every hour</div>
+              </div>
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className={`text-sm ${darkMode ? "text-gray-300" : "text-gray-600"}`}>Coding Challenges Completed</span>
+                  <div className="flex items-center">
+                    <div className={`w-32 h-2 ${darkMode ? "bg-gray-700" : "bg-gray-200"} rounded-full mr-3`}>
+                      <div className="w-3/4 h-full bg-sky-500 rounded-full"></div>
+                    </div>
+                    <span className="text-sm font-semibold">1,247</span>
+                  </div>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className={`text-sm ${darkMode ? "text-gray-300" : "text-gray-600"}`}>Projects Submitted</span>
+                  <div className="flex items-center">
+                    <div className={`w-32 h-2 ${darkMode ? "bg-gray-700" : "bg-gray-200"} rounded-full mr-3`}>
+                      <div className="w-2/3 h-full bg-sky-500 rounded-full"></div>
+                    </div>
+                    <span className="text-sm font-semibold">892</span>
+                  </div>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className={`text-sm ${darkMode ? "text-gray-300" : "text-gray-600"}`}>Certificates Earned</span>
+                  <div className="flex items-center">
+                    <div className={`w-32 h-2 ${darkMode ? "bg-gray-700" : "bg-gray-200"} rounded-full mr-3`}>
+                      <div className="w-1/2 h-full bg-sky-500 rounded-full"></div>
+                    </div>
+                    <span className="text-sm font-semibold">156</span>
+                  </div>
                 </div>
               </div>
             </div>
+          </div>
+
+          {/* Features */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {t.onlineProviderFeatures.map((feature, index) => (
+              <div
+                key={index}
+                className={`text-center p-6 rounded-2xl transition-all duration-300 hover:scale-105 ${
+                  darkMode ? "bg-black" : "bg-white"
+                } shadow-lg border border-sky-400`}
+              >
+                <div className="text-5xl mb-4">{feature.icon}</div>
+                <h3 className="text-xl font-bold mb-3 text-sky-600">
+                  {feature.title}
+                </h3>
+                <p className={darkMode ? "text-white" : "text-black"}>
+                  {feature.description}
+                </p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
       {/* Why Choose Us Section */}
-      <section className={`py-20 ${darkMode ? "bg-gray-900" : "bg-white"}`}>
+      <section className={`py-20 ${darkMode ? "bg-black" : "bg-white"}`}>
         <div className="container mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-4 text-sky-600">
             {t.whyChooseHeading}
           </h2>
-          <p className="text-xl text-center mb-12 max-w-2xl mx-auto">
+          <p className={`text-xl text-center mb-12 max-w-2xl mx-auto ${
+            darkMode ? "text-gray-300" : "text-gray-600"
+          }`}>
             {t.whyChooseIntro}
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -525,14 +777,14 @@ const Services = () => {
               <div
                 key={index}
                 className={`p-6 rounded-2xl text-center transition-all duration-300 hover:scale-105 ${
-                  darkMode ? "bg-gray-800" : "bg-white"
-                } shadow-lg`}
+                  darkMode ? "bg-black" : "bg-white"
+                } shadow-lg border border-sky-400`}
               >
                 <div className={`text-4xl mb-4`}>{feature.icon}</div>
                 <h3 className={`text-xl font-bold mb-3 text-sky-600`}>
                   {feature.title}
                 </h3>
-                <p>{feature.desc}</p>
+                <p className={darkMode ? "text-gray-300" : "text-gray-600"}>{feature.desc}</p>
               </div>
             ))}
           </div>
@@ -540,57 +792,59 @@ const Services = () => {
       </section>
 
       {/* Learning Plans Section */}
-      <section className={`py-20 ${darkMode ? "bg-gray-900" : "bg-white"}`}>
+      <section className={`py-20 ${darkMode ? "bg-black" : "bg-white"}`}>
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-4 text-blue-600">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-4 text-sky-600">
             {t.packagesHeading}
           </h2>
-          <p className="text-xl text-center mb-12 max-w-2xl mx-auto">
+          <p className={`text-xl text-center mb-12 max-w-2xl mx-auto ${
+            darkMode ? "text-gray-300" : "text-gray-600"
+          }`}>
             {t.packagesIntro}
           </p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
             {/* Self-Paced Learning */}
             <div className={`rounded-2xl p-8 text-center relative transition-all duration-300 hover:scale-105 ${
-              darkMode ? "bg-gray-800" : "bg-gray-50"
-            } shadow-lg`}>
-              <h3 className="text-2xl font-bold mb-4 text-blue-600">{t.starter}</h3>
-              <p className="mb-6">{t.starterDesc}</p>
+              darkMode ? "bg-black" : "bg-white"
+            } shadow-lg border border-sky-400`}>
+              <h3 className="text-2xl font-bold mb-4 text-sky-600">{t.starter}</h3>
+              <p className={`mb-6 ${darkMode ? "text-gray-300" : "text-gray-600"}`}>{t.starterDesc}</p>
               <ul className="mb-8 space-y-3 text-left">
                 {t.starterFeatures.map((feature, idx) => (
-                  <li key={idx} className="flex items-center">
-                    <span className="text-green-500 mr-3">✓</span>
+                  <li key={idx} className={`flex items-center ${darkMode ? "text-gray-300" : "text-gray-600"}`}>
+                    <span className="text-sky-500 mr-3">✓</span>
                     {feature}
                   </li>
                 ))}
               </ul>
               <button
-                onClick={() => handleGetStarted("/enroll")}
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-semibold transition-colors"
+                onClick={() => handleGetStarted("/contact")}
+                className="w-full bg-sky-600 hover:bg-sky-700 text-white py-3 rounded-lg font-semibold transition-colors"
               >
                 {t.getStarted}
               </button>
             </div>
 
             {/* Mentor-Led Program */}
-            <div className={`rounded-2xl p-8 text-center relative transform scale-105 border-2 border-blue-500 transition-all duration-300 hover:scale-110 ${
-              darkMode ? "bg-blue-900" : "bg-blue-50"
+            <div className={`rounded-2xl p-8 text-center relative transform scale-105 border-2 border-sky-500 transition-all duration-300 hover:scale-110 ${
+              darkMode ? "bg-black" : "bg-white"
             } shadow-xl`}>
-              <span className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-yellow-500 text-gray-900 px-4 py-1 rounded-full text-sm font-bold">
+              <span className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-sky-500 text-white px-4 py-1 rounded-full text-sm font-bold">
                 {t.mostPopular}
               </span>
-              <h3 className="text-2xl font-bold mb-4 text-blue-700">{t.growth}</h3>
-              <p className="mb-6">{t.growthDesc}</p>
+              <h3 className="text-2xl font-bold mb-4 text-sky-600">{t.growth}</h3>
+              <p className={`mb-6 ${darkMode ? "text-gray-300" : "text-gray-600"}`}>{t.growthDesc}</p>
               <ul className="mb-8 space-y-3 text-left">
                 {t.growthFeatures.map((feature, idx) => (
-                  <li key={idx} className="flex items-center">
-                    <span className="text-green-500 mr-3">✓</span>
+                  <li key={idx} className={`flex items-center ${darkMode ? "text-gray-300" : "text-gray-600"}`}>
+                    <span className="text-sky-500 mr-3">✓</span>
                     {feature}
                   </li>
                 ))}
               </ul>
               <button
-                onClick={() => handleGetStarted("/enroll")}
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-semibold transition-colors"
+                onClick={() => handleGetStarted("/services")}
+                className="w-full bg-sky-600 hover:bg-sky-700 text-white py-3 rounded-lg font-semibold transition-colors"
               >
                 {t.learnMore}
               </button>
@@ -598,21 +852,21 @@ const Services = () => {
 
             {/* Career Track */}
             <div className={`rounded-2xl p-8 text-center relative transition-all duration-300 hover:scale-105 ${
-              darkMode ? "bg-gray-800" : "bg-gray-50"
-            } shadow-lg`}>
-              <h3 className="text-2xl font-bold mb-4 text-purple-600">{t.enterprise}</h3>
-              <p className="mb-6">{t.enterpriseDesc}</p>
+              darkMode ? "bg-black" : "bg-white"
+            } shadow-lg border border-sky-400`}>
+              <h3 className="text-2xl font-bold mb-4 text-sky-600">{t.enterprise}</h3>
+              <p className={`mb-6 ${darkMode ? "text-gray-300" : "text-gray-600"}`}>{t.enterpriseDesc}</p>
               <ul className="mb-8 space-y-3 text-left">
                 {t.enterpriseFeatures.map((feature, idx) => (
-                  <li key={idx} className="flex items-center">
-                    <span className="text-green-500 mr-3">✓</span>
+                  <li key={idx} className={`flex items-center ${darkMode ? "text-gray-300" : "text-gray-600"}`}>
+                    <span className="text-sky-500 mr-3">✓</span>
                     {feature}
                   </li>
                 ))}
               </ul>
               <button
-                onClick={() => handleGetStarted("/enroll")}
-                className="w-full bg-purple-600 hover:bg-purple-700 text-white py-3 rounded-lg font-semibold transition-colors"
+                onClick={() => handleGetStarted("/services")}
+                className="w-full bg-sky-600 hover:bg-sky-700 text-white py-3 rounded-lg font-semibold transition-colors"
               >
                 {t.learnMore}
               </button>
@@ -622,12 +876,14 @@ const Services = () => {
       </section>
 
       {/* FAQ Section */}
-      <section className={`py-20 ${darkMode ? "bg-gray-800" : "bg-gray-50"}`}>
+      <section className={`py-20 ${darkMode ? "bg-black" : "bg-white"}`}>
         <div className="container mx-auto px-4 max-w-4xl">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-4 text-blue-600">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-4 text-sky-600">
             {t.faqHeading}
           </h2>
-          <p className="text-xl text-center mb-12">
+          <p className={`text-xl text-center mb-12 ${
+            darkMode ? "text-gray-300" : "text-gray-600"
+          }`}>
             {t.faqIntro}
           </p>
           <div className="space-y-4">
@@ -635,17 +891,17 @@ const Services = () => {
               <div
                 key={idx}
                 className={`rounded-lg overflow-hidden ${
-                  darkMode ? "bg-gray-700" : "bg-white"
-                } shadow-md`}
+                  darkMode ? "bg-black" : "bg-white"
+                } shadow-md border border-sky-400`}
               >
                 <button
                   className={`w-full p-6 text-left flex justify-between items-center transition-colors ${
-                    darkMode ? "hover:bg-gray-600" : "hover:bg-gray-100"
+                    darkMode ? "hover:bg-black" : "hover:bg-white"
                   }`}
                   onClick={() => handleFaqToggle(idx)}
                 >
-                  <h4 className="text-lg font-semibold">{faq.question}</h4>
-                  <span className={`transform transition-transform duration-300 ${
+                  <h4 className={`text-lg font-semibold ${darkMode ? "text-white" : "text-gray-900"}`}>{faq.question}</h4>
+                  <span className={`transform transition-transform duration-300 text-sky-500 ${
                     openFaq === idx ? "rotate-180" : ""
                   }`}>
                     ▼
@@ -656,8 +912,8 @@ const Services = () => {
                     openFaq === idx ? "max-h-96" : "max-h-0"
                   }`}
                 >
-                  <div className="p-6 border-t border-gray-200 dark:border-gray-600">
-                    <p>{faq.answer}</p>
+                  <div className={`p-6 border-t ${darkMode ? "border-sky-500" : "border-sky-400"}`}>
+                    <p className={darkMode ? "text-gray-300" : "text-gray-600"}>{faq.answer}</p>
                   </div>
                 </div>
               </div>
@@ -667,17 +923,17 @@ const Services = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-blue-600 to-purple-600">
+      <section className={`py-20 ${darkMode ? "bg-black" : "bg-sky-600"}`}>
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">
             {t.ctaHeading}
           </h2>
-          <p className="text-xl mb-8 text-blue-100 max-w-2xl mx-auto">
+          <p className={`text-xl mb-8 max-w-2xl mx-auto ${darkMode ? "text-white" : "text-white"}`}>
             {t.ctaParagraph}
           </p>
           <button
             onClick={() => handleGetStarted("/courses")}
-            className="bg-white text-blue-600 hover:bg-gray-100 px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-300 transform hover:scale-105"
+            className={`${darkMode ? "bg-white text-black hover:bg-sky-100" : "bg-white text-sky-600 hover:bg-sky-50"} px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-300 transform hover:scale-105`}
           >
             {t.ctaBtn}
           </button>

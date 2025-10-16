@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { useDarkMode } from "../context/Darkmodecontext";
 import { useLanguage } from "../context/LanguageContext";
 import video from "../images/bloglms.mp4"
 // Translations for all visible text - Updated for online course provider
@@ -70,7 +69,7 @@ const translations = {
         title: "Full Stack Developer Career Path",
         meta: "12 Months • 45 Projects • Career Support",
         desc: "Become job-ready as a full-stack developer with our comprehensive program covering front-end, back-end, databases, and deployment.",
-        link: "/fullstack-path",
+        link: "/webdevelopment",
         linkText: "View Curriculum →"
       },
       {
@@ -78,7 +77,7 @@ const translations = {
         title: "Data Scientist Specialization",
         meta: "10 Months • 35 Projects • Portfolio Building",
         desc: "Master data analysis, machine learning, and data visualization to become a proficient data scientist in high-demand industries.",
-        link: "/data-science-path",
+        link: "/datascience",
         linkText: "Explore Program"
       },
       {
@@ -86,7 +85,7 @@ const translations = {
         title: "UX/UI Designer Certification",
         meta: "8 Months • 25 Projects • Design Toolkit",
         desc: "Learn user research, wireframing, prototyping, and design systems to create exceptional digital experiences that users love.",
-        link: "/design-path",
+        link: "/uidesign",
         linkText: "See Details"
       }
     ],
@@ -108,7 +107,7 @@ const translations = {
     ],
     ctaTitle: "Ready to Launch Your Tech Career?",
     ctaDesc: "Join thousands of students who transformed their lives through our industry-relevant courses and career support.",
-    ctaBtn1: "Start Free Trial",
+    ctaBtn1: "Contact Us",
     ctaBtn2: "View All Courses"
   },
   ar: {
@@ -290,7 +289,7 @@ const translations = {
         title: "התמחות Data Scientist",
         meta: "10 חודשים • 35 פרויקטים • בניית Portfolio",
         desc: "שלט בניתוח נתונים, למידת מכונה והדמיה כדי להפוך ל-Data Scientist מיומן בתעשיות מבוקשות.",
-        link: "/data-science-path",
+        link: "/datascience",
         linkText: "גלה את התוכנית"
       },
       {
@@ -298,7 +297,7 @@ const translations = {
         title: "הסמכת UX/UI Designer",
         meta: "8 חודשים • 25 פרויקטים • כלי עיצוב",
         desc: "למד מחקר משתמשים, Wireframing, יצירת אבות טיפוס ומערכות עיצוב כדי ליצור חוויות דיגיטליות יוצאות דופן.",
-        link: "/design-path",
+        link: "/uxui-design",
         linkText: "ראה פרטים"
       }
     ],
@@ -327,9 +326,27 @@ const translations = {
 
 const Blog = () => {
   const navigate = useNavigate();
-  const { darkMode } = useDarkMode();
   const { language } = useLanguage();
   const [activeStory, setActiveStory] = useState(0);
+  const [darkMode, setDarkMode] = useState(false);
+
+  useEffect(() => {
+    const theme = localStorage.getItem("theme");
+    setDarkMode(theme === "dark");
+    
+    const handleThemeChange = () => {
+      const currentTheme = localStorage.getItem("theme");
+      setDarkMode(currentTheme === "dark");
+    };
+
+    window.addEventListener("storage", handleThemeChange);
+    window.addEventListener("themeChange", handleThemeChange);
+
+    return () => {
+      window.removeEventListener("storage", handleThemeChange);
+      window.removeEventListener("themeChange", handleThemeChange);
+    };
+  }, []);
 
   // Use translated cards
   const t = translations[language] || translations["en"];
@@ -383,112 +400,191 @@ const Blog = () => {
             {language === 'ar' && "انضم إلى 50,000+ طالب يبنيون مهارات تكنولوجية مطلوبة"}
             {language === 'he' && "הצטרף ל-50,000+ סטודנטים הבונים כישורים טכנולוגיים מבוקשים"}
           </p>
-          <button 
-            onClick={() => handleGetStarted("/courses")}
-            className="bg-white text-sky-600 px-8 py-4 rounded-full font-bold text-lg hover:bg-sky-50 transition-colors duration-300 shadow-lg"
-          >
-            {language === 'en' && "Explore Courses"}
-            {language === 'ar' && "استكشف الدورات"}
-            {language === 'he' && "גלה קורסים"}
-          </button>
+
         </div>
       </div>
 
-      {/* Featured Courses */}
+      {/* Featured Articles */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <h1 className="text-3xl md:text-4xl font-bold text-center mb-12">
-          {t.featuredTitle}
+        <h1 className="text-3xl md:text-4xl font-bold text-center mb-12 text-sky-600">
+          {language === 'en' && "Featured Articles About Online Learning"}
+          {language === 'ar' && "مقالات مميزة حول التعلم الإلكتروني"}
+          {language === 'he' && "מאמרים מובילים על למידה מקוונת"}
         </h1>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {cards.map(card => (
-            <div 
-              key={card.id} 
-              className={`rounded-2xl overflow-hidden shadow-lg transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 ${
-                darkMode ? "bg-gray-800" : "bg-white"
-              }`}
-            >
-              <div className="h-48 overflow-hidden relative">
-                <img 
-                  src={card.image} 
-                  alt={card.title}
-                  className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
-                />
-                <div className="absolute top-4 right-4 bg-white bg-opacity-90 text-sky-600 px-3 py-1 rounded-full text-sm font-semibold">
-                  {language === 'en' && "Bestseller"}
-                  {language === 'ar' && "الأكثر مبيعاً"}
-                  {language === 'he' && "רב מכר"}
-                </div>
-              </div>
-              <div className="p-6">
-                <h2 className={`text-xl font-bold mb-3 ${
-                  darkMode ? "text-white" : "text-black"
-                }`}>
-                  {card.title}
-                </h2>
-                <p className={`mb-4 leading-relaxed ${
-                  darkMode ? "text-gray-300" : "text-gray-600"
-                }`}>
-                  {card.description}
-                </p>
-                <div className="flex items-center justify-between mb-4">
-                  <span className={`text-sm ${darkMode ? "text-gray-400" : "text-gray-500"}`}>
-                    ⭐⭐⭐⭐⭐ 4.9/5.0
-                  </span>
-                  <span className={`font-semibold ${darkMode ? "text-sky-400" : "text-sky-600"}`}>
-                    {language === 'en' && "8,500+ students"}
-                    {language === 'ar' && "8,500+ طالب"}
-                    {language === 'he' && "8,500+ סטודנטים"}
-                  </span>
-                </div>
-                <button
-                  className={`w-full py-3 px-6 rounded-full font-semibold transition-all duration-300 ${
-                    card.style === "modern" 
-                      ? "bg-sky-600 hover:bg-sky-700 text-white" 
-                      : card.style === "minimalist"
-                      ? "bg-sky-600 hover:bg-sky-700 text-white"
-                      : "bg-sky-600 hover:bg-sky-700 text-white"
-                  }`}
-                  onClick={() => handleGetStarted(card.path)}
-                >
-                  {card.buttonText}
-                </button>
+          {/* Article 1 - Online Learning Revolution */}
+          <article className={`rounded-2xl overflow-hidden shadow-lg transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 ${darkMode ? "bg-black border border-sky-400" : "bg-white"}`}>
+            <div className="h-48 overflow-hidden relative">
+              <img
+                src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1170&q=80"
+                alt={language === 'en' ? "Online Learning Revolution" : language === 'ar' ? "ثورة التعلم الإلكتروني" : "מהפכת הלמידה המקוונת"}
+                className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
+              />
+              <div className="absolute top-4 right-4 bg-sky-600 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                {language === 'en' && "Trending"}
+                {language === 'ar' && "متداول"}
+                {language === 'he' && "טרנדינג"}
               </div>
             </div>
-          ))}
+            <div className="p-6">
+              <h2 className={`text-xl font-bold mb-3 text-sky-600`}>
+                {language === 'en' && "The Future of Online Course Providers"}
+                {language === 'ar' && "مستقبل مقدمي الدورات الإلكترونية"}
+                {language === 'he' && "עתיד ספקי הקורסים המקוונים"}
+              </h2>
+              <p className={`mb-4 leading-relaxed ${darkMode ? "text-white" : "text-black"}`}>
+                {language === 'en' && "Discover how online course providers are revolutionizing education with AI-powered learning, personalized curricula, and industry partnerships."}
+                {language === 'ar' && "اكتشف كيف يقوم مقدمو الدورات الإلكترونية بإحداث ثورة في التعليم من خلال التعلم المدعوم بالذكاء الاصطناعي والمناهج الشخصية والشراكات الصناعية."}
+                {language === 'he' && "גלה כיצד ספקי קורסים מקוונים מחוללים מהפכה בחינוך עם למידה מבוססת AI, תכניות לימוד מותאמות אישית ושותפויות תעשייתיות."}
+              </p>
+              <div className="flex items-center justify-between mb-4">
+                <span className={`text-sm ${darkMode ? "text-sky-400" : "text-sky-600"}`}>
+                  {language === 'en' && "5 min read"}
+                  {language === 'ar' && "5 دقائق قراءة"}
+                  {language === 'he' && "5 דקות קריאה"}
+                </span>
+                <span className={`font-semibold text-sky-600`}>
+                  {language === 'en' && "Education Tech"}
+                  {language === 'ar' && "تكنولوجيا التعليم"}
+                  {language === 'he' && "טכנולוגיית חינוך"}
+                </span>
+              </div>
+              <button
+                className="w-full py-3 px-6 rounded-full font-semibold transition-all duration-300 bg-sky-600 hover:bg-sky-700 text-white"
+                onClick={() => handleGetStarted("/blog1")}
+              >
+                {language === 'en' && "Read Article"}
+                {language === 'ar' && "اقرأ المقال"}
+                {language === 'he' && "קרא מאמר"}
+              </button>
+            </div>
+          </article>
+
+          {/* Article 2 - Course Quality Standards */}
+          <article className={`rounded-2xl overflow-hidden shadow-lg transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 ${darkMode ? "bg-black border border-sky-400" : "bg-white"}`}>
+            <div className="h-48 overflow-hidden relative">
+              <img
+                src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1170&q=80"
+                alt={language === 'en' ? "Quality Standards" : language === 'ar' ? "معايير الجودة" : "תקני איכות"}
+                className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
+              />
+              <div className="absolute top-4 right-4 bg-sky-600 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                {language === 'en' && "Expert"}
+                {language === 'ar' && "خبير"}
+                {language === 'he' && "מומחה"}
+              </div>
+            </div>
+            <div className="p-6">
+              <h2 className={`text-xl font-bold mb-3 text-sky-600`}>
+                {language === 'en' && "How Top Course Providers Ensure Quality"}
+                {language === 'ar' && "كيف يضمن أفضل مقدمي الدورات الجودة"}
+                {language === 'he' && "כיצד ספקי קורסים מובילים מבטיחים איכות"}
+              </h2>
+              <p className={`mb-4 leading-relaxed ${darkMode ? "text-white" : "text-black"}`}>
+                {language === 'en' && "Learn about the rigorous quality standards, expert instructor vetting, and continuous improvement processes that set premium course providers apart."}
+                {language === 'ar' && "تعرف على معايير الجودة الصارمة وفحص المدربين الخبراء وعمليات التحسين المستمر التي تميز مقدمي الدورات المتميزين."}
+                {language === 'he' && "למד על תקני האיכות הקפדניים, בדיקת מדריכים מומחים ותהליכי שיפור מתמיד שמבדילים ספקי קורסים מובילים."}
+              </p>
+              <div className="flex items-center justify-between mb-4">
+                <span className={`text-sm ${darkMode ? "text-sky-400" : "text-sky-600"}`}>
+                  {language === 'en' && "7 min read"}
+                  {language === 'ar' && "7 دقائق قراءة"}
+                  {language === 'he' && "7 דקות קריאה"}
+                </span>
+                <span className={`font-semibold text-sky-600`}>
+                  {language === 'en' && "Quality Assurance"}
+                  {language === 'ar' && "ضمان الجودة"}
+                  {language === 'he' && "בטחת איכות"}
+                </span>
+              </div>
+              <button
+                className="w-full py-3 px-6 rounded-full font-semibold transition-all duration-300 bg-sky-600 hover:bg-sky-700 text-white"
+                onClick={() => handleGetStarted("/blog2")}
+              >
+                {language === 'en' && "Read Article"}
+                {language === 'ar' && "اقرأ المقال"}
+                {language === 'he' && "קרא מאמר"}
+              </button>
+            </div>
+          </article>
+
+          {/* Article 3 - Success Stories */}
+          <article className={`rounded-2xl overflow-hidden shadow-lg transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 ${darkMode ? "bg-black border border-sky-400" : "bg-white"}`}>
+            <div className="h-48 overflow-hidden relative">
+              <img
+                src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1170&q=80"
+                alt={language === 'en' ? "Success Stories" : language === 'ar' ? "قصص النجاح" : "סיפורי הצלחה"}
+                className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
+              />
+              <div className="absolute top-4 right-4 bg-sky-600 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                {language === 'en' && "Popular"}
+                {language === 'ar' && "شائع"}
+                {language === 'he' && "פופולרי"}
+              </div>
+            </div>
+            <div className="p-6">
+              <h2 className={`text-xl font-bold mb-3 text-sky-600`}>
+                {language === 'en' && "Student Success: From Beginner to Professional"}
+                {language === 'ar' && "نجاح الطلاب: من مبتدئ إلى محترف"}
+                {language === 'he' && "הצלחת סטודנטים: ממתחיל למקצוען"}
+              </h2>
+              <p className={`mb-4 leading-relaxed ${darkMode ? "text-white" : "text-black"}`}>
+                {language === 'en' && "Real stories from students who transformed their careers through online learning platforms, featuring career changes, salary increases, and skill development."}
+                {language === 'ar' && "قصص حقيقية من طلاب غيروا مساراتهم المهنية من خلال منصات التعلم الإلكتروني، تتضمن تغييرات في المهنة وزيادات في الراتب وتطوير المهارات."}
+                {language === 'he' && "סיפורים אמיתיים של סטודנטים ששינו את הקריירה שלהם דרך פלטפורמות למידה מקוונות, כולל שינויי קריירה, העלאות שכר ופיתוח מיומנויות."}
+              </p>
+              <div className="flex items-center justify-between mb-4">
+                <span className={`text-sm ${darkMode ? "text-sky-400" : "text-sky-600"}`}>
+                  {language === 'en' && "6 min read"}
+                  {language === 'ar' && "6 دقائق قراءة"}
+                  {language === 'he' && "6 דקות קריאה"}
+                </span>
+                <span className={`font-semibold text-sky-600`}>
+                  {language === 'en' && "Success Stories"}
+                  {language === 'ar' && "قصص النجاح"}
+                  {language === 'he' && "סיפורי הצלחה"}
+                </span>
+              </div>
+              <button
+                className="w-full py-3 px-6 rounded-full font-semibold transition-all duration-300 bg-sky-600 hover:bg-sky-700 text-white"
+                onClick={() => handleGetStarted("/blog3")}
+              >
+                {language === 'en' && "Read Article"}
+                {language === 'ar' && "اقرأ المقال"}
+                {language === 'he' && "קרא מאמר"}
+              </button>
+            </div>
+          </article>
         </div>
       </div>
 
       {/* Student Success Stories */}
-      <section className={`py-16 ${darkMode ? "bg-gray-900" : "bg-gray-50"}`}>
+      <section className={`py-16 ${darkMode ? "bg-black" : "bg-gray-50"}`}>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl font-bold text-center mb-3">{t.storyGalleryTitle}</h2>
-          <p className={`text-center mb-12 max-w-2xl mx-auto ${
-            darkMode ? "text-gray-300" : "text-gray-600"
-          }`}>
+          <p className={`text-center mb-12 max-w-2xl mx-auto ${darkMode ? "text-gray-300" : "text-gray-600"
+            }`}>
             {t.storyGalleryDesc}
           </p>
-          
-          <div className={`rounded-lg overflow-hidden border ${
-            darkMode ? "border-gray-700 bg-black" : "border-gray-200 bg-white"
-          }`}>
-            <div className={`flex flex-col md:flex-row ${
-              darkMode ? "bg-gray-800 border-gray-700" : "bg-gray-100 border-gray-200"
-            } border-b`}>
+
+          <div className={`rounded-lg overflow-hidden border ${darkMode ? "border-gray-700 bg-black" : "border-gray-200 bg-white"
+            }`}>
+            <div className={`flex flex-col md:flex-row ${darkMode ? "bg-gray-800 border-gray-700" : "bg-gray-100 border-gray-200"
+              } border-b`}>
               {t.stories.map((story, idx) => (
                 <button
                   key={idx}
-                  className={`flex-1 px-6 py-4 font-medium transition-all duration-300 border-b-2 md:border-b-0 md:border-r last:border-r-0 ${
-                    activeStory === idx 
-                      ? `border-sky-500 ${darkMode ? "bg-black text-sky-400" : "bg-white text-sky-600"}` 
+                  className={`flex-1 px-6 py-4 font-medium transition-all duration-300 border-b-2 md:border-b-0 md:border-r last:border-r-0 ${activeStory === idx
+                      ? `border-sky-500 ${darkMode ? "bg-black text-sky-400" : "bg-white text-sky-600"}`
                       : `border-transparent ${darkMode ? "text-gray-400 hover:text-gray-200" : "text-gray-600 hover:text-gray-900"}`
-                  }`}
+                    }`}
                   onClick={() => setActiveStory(idx)}
                 >
                   {story.nav}
                 </button>
               ))}
             </div>
-            
+
             <div className="p-8">
               <div className="flex flex-col lg:flex-row gap-8">
                 <div className="flex-1">
@@ -507,14 +603,12 @@ const Blog = () => {
                   </div>
                 </div>
                 <div className="flex-1">
-                  <h3 className={`text-2xl font-bold mb-4 ${
-                    darkMode ? "text-white" : "text-black"
-                  }`}>
+                  <h3 className={`text-2xl font-bold mb-4 ${darkMode ? "text-white" : "text-black"
+                    }`}>
                     {t.stories[activeStory].title}
                   </h3>
-                  <p className={`mb-6 leading-relaxed ${
-                    darkMode ? "text-gray-300" : "text-gray-600"
-                  }`}>
+                  <p className={`mb-6 leading-relaxed ${darkMode ? "text-gray-300" : "text-gray-600"
+                    }`}>
                     {t.stories[activeStory].desc}
                   </p>
                   <ul className="space-y-3 mb-6">
@@ -525,10 +619,7 @@ const Blog = () => {
                       </li>
                     ))}
                   </ul>
-                  <Link to="#" className="inline-flex items-center text-sky-600 hover:text-sky-700 font-semibold transition-colors duration-300">
-                    {t.stories[activeStory].link}
-                    <span className="ml-2">→</span>
-                  </Link>
+
                 </div>
               </div>
             </div>
@@ -540,30 +631,26 @@ const Blog = () => {
       <section className={`py-16 ${darkMode ? "bg-black" : "bg-white"}`}>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl font-bold text-center mb-4">{t.highlightsTitle}</h2>
-          <p className={`text-center text-xl mb-12 max-w-3xl mx-auto ${
-            darkMode ? "text-gray-300" : "text-gray-600"
-          }`}>
+          <p className={`text-center text-xl mb-12 max-w-3xl mx-auto ${darkMode ? "text-gray-300" : "text-gray-600"
+            }`}>
             {t.highlightsSubtitle}
           </p>
-          
+
           <div className="space-y-12">
             {t.highlights.map((highlight, idx) => (
-              <article 
+              <article
                 key={idx}
-                className={`flex flex-col lg:flex-row gap-8 items-center ${
-                  idx % 2 === 1 ? "lg:flex-row-reverse" : ""
-                }`}
+                className={`flex flex-col lg:flex-row gap-8 items-center ${idx % 2 === 1 ? "lg:flex-row-reverse" : ""
+                  }`}
               >
                 <div className="flex-1 relative">
                   <div className="rounded-xl overflow-hidden shadow-2xl bg-gradient-to-br from-sky-500 to-sky-600 p-1">
-                    <div className={`rounded-lg overflow-hidden ${
-                      darkMode ? "bg-gray-800" : "bg-white"
-                    }`}>
+                    <div className={`rounded-lg overflow-hidden ${darkMode ? "bg-gray-800" : "bg-white"
+                      }`}>
                       <div className="p-6">
                         <div className="flex items-center justify-between mb-4">
-                          <h4 className={`text-lg font-bold ${
-                            darkMode ? "text-white" : "text-black"
-                          }`}>
+                          <h4 className={`text-lg font-bold ${darkMode ? "text-white" : "text-black"
+                            }`}>
                             {highlight.category}
                           </h4>
                           <span className="bg-sky-100 text-sky-800 px-3 py-1 rounded-full text-sm font-medium">
@@ -609,37 +696,26 @@ const Blog = () => {
                   </div>
                 </div>
                 <div className="flex-1">
-                  <h3 className={`text-2xl font-bold mb-3 ${
-                    darkMode ? "text-white" : "text-black"
-                  }`}>
+                  <h3 className={`text-2xl font-bold mb-3 ${darkMode ? "text-white" : "text-black"
+                    }`}>
                     {highlight.title}
                   </h3>
-                  <p className={`mb-4 font-medium ${
-                    darkMode ? "text-sky-300" : "text-sky-600"
-                  }`}>
+                  <p className={`mb-4 font-medium ${darkMode ? "text-sky-300" : "text-sky-600"
+                    }`}>
                     {highlight.meta}
                   </p>
-                  <p className={`mb-6 leading-relaxed ${
-                    darkMode ? "text-gray-300" : "text-gray-600"
-                  }`}>
+                  <p className={`mb-6 leading-relaxed ${darkMode ? "text-gray-300" : "text-gray-600"
+                    }`}>
                     {highlight.desc}
                   </p>
                   <div className="flex flex-wrap gap-4">
-                    <Link 
-                      to={highlight.link} 
+                    <Link
+                      to={highlight.link}
                       className="inline-flex items-center bg-sky-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-sky-700 transition-colors duration-300"
                     >
                       {highlight.linkText}
                     </Link>
-                    <button className={`inline-flex items-center px-6 py-3 rounded-lg font-semibold border-2 transition-colors duration-300 ${
-                      darkMode 
-                        ? "border-gray-600 text-gray-300 hover:border-gray-500" 
-                        : "border-gray-300 text-gray-700 hover:border-gray-400"
-                    }`}>
-                      {language === 'en' && "Download Syllabus"}
-                      {language === 'ar' && "تحميل المنهج"}
-                      {language === 'he' && "הורד סילבוס"}
-                    </button>
+                    
                   </div>
                 </div>
               </article>
@@ -649,26 +725,23 @@ const Blog = () => {
       </section>
 
       {/* Learning Mythbusters */}
-      <section className={`py-16 ${darkMode ? "bg-gray-900" : "bg-gray-50"}`}>
+      <section className={`py-16 ${darkMode ? "bg-black" : "bg-gray-50"}`}>
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl font-bold text-center mb-4">{t.mythbustersTitle}</h2>
-          <p className={`text-center text-xl mb-12 ${
-            darkMode ? "text-gray-300" : "text-gray-600"
-          }`}>
+          <p className={`text-center text-xl mb-12 ${darkMode ? "text-gray-300" : "text-gray-600"
+            }`}>
             {t.mythbustersSubtitle}
           </p>
-          
+
           <div className="space-y-6">
             {t.myths.map((myth, idx) => (
-              <div 
+              <div
                 key={idx}
-                className={`p-6 rounded-xl shadow-lg transition-all duration-300 hover:shadow-xl ${
-                  darkMode ? "bg-gray-800" : "bg-white"
-                }`}
+                className={`p-6 rounded-xl shadow-lg transition-all duration-300 hover:shadow-xl ${darkMode ? "bg-gray-800" : "bg-white"
+                  }`}
               >
-                <h3 className={`text-xl font-bold mb-3 ${
-                  darkMode ? "text-sky-400" : "text-sky-600"
-                }`}>
+                <h3 className={`text-xl font-bold mb-3 ${darkMode ? "text-sky-400" : "text-sky-600"
+                  }`}>
                   {myth.title}
                 </h3>
                 <p className={darkMode ? "text-gray-300" : "text-gray-700"}>
@@ -684,36 +757,32 @@ const Blog = () => {
       <section className={`py-16 ${darkMode ? "bg-black" : "bg-gradient-to-br from-sky-50 to-sky-100"}`}>
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">{t.ctaTitle}</h2>
-          <p className={`text-xl mb-8 max-w-2xl mx-auto ${
-            darkMode ? "text-gray-300" : "text-gray-600"
-          }`}>
+          <p className={`text-xl mb-8 max-w-2xl mx-auto ${darkMode ? "text-gray-300" : "text-gray-600"
+            }`}>
             {t.ctaDesc}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button
-              className={`px-8 py-4 rounded-full font-bold text-lg transition-all duration-300 ${
-                darkMode 
-                  ? "bg-white text-black hover:bg-gray-200" 
+              className={`px-8 py-4 rounded-full font-bold text-lg transition-all duration-300 ${darkMode
+                  ? "bg-white text-black hover:bg-gray-200"
                   : "bg-sky-600 text-white hover:bg-sky-700"
-              }`}
-              onClick={() => handleGetStarted("/free-trial")}
+                }`}
+              onClick={() => handleGetStarted("/contact")}
             >
               {t.ctaBtn1}
             </button>
             <button
-              className={`px-8 py-4 rounded-full font-bold text-lg border-2 transition-all duration-300 ${
-                darkMode
+              className={`px-8 py-4 rounded-full font-bold text-lg border-2 transition-all duration-300 ${darkMode
                   ? "border-white text-white hover:bg-white hover:text-black"
                   : "border-sky-600 text-sky-600 hover:bg-sky-600 hover:text-white"
-              }`}
-              onClick={() => handleGetStarted("/courses")}
+                }`}
+              onClick={() => handleGetStarted("/services")}
             >
               {t.ctaBtn2}
             </button>
           </div>
-          <p className={`mt-6 text-sm ${
-            darkMode ? "text-gray-400" : "text-gray-600"
-          }`}>
+          <p className={`mt-6 text-sm ${darkMode ? "text-gray-400" : "text-gray-600"
+            }`}>
             {language === 'en' && "7-day free trial • No credit card required"}
             {language === 'ar' && "نسخة تجريبية مجانية لمدة 7 أيام • لا حاجة لبطاقة ائتمان"}
             {language === 'he' && "ניסיון חינם ל-7 ימים • אין צורך בכרטיס אשראי"}

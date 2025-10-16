@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
-import { useDarkMode } from '../context/Darkmodecontext';
 import { useLanguage } from '../context/LanguageContext';
 import { FaChartLine, FaBullhorn, FaUsers } from 'react-icons/fa';
 import video from "../images/marketing.mp4"
-
+import image from "../images/lmss5.jpg"
 const translations = {
   en: {
     heroTitle: "Master Business & Marketing with Industry Experts",
@@ -232,10 +231,28 @@ const translations = {
 
 const BusinessandMarketing = () => {
   const navigate = useNavigate();
-  const { darkMode } = useDarkMode();
   const { language } = useLanguage();
   const t = translations[language] || translations["en"];
   const [flippedCards, setFlippedCards] = useState([]);
+  const [darkMode, setDarkMode] = useState(false);
+
+  useEffect(() => {
+    const theme = localStorage.getItem("theme");
+    setDarkMode(theme === "dark");
+    
+    const handleThemeChange = () => {
+      const currentTheme = localStorage.getItem("theme");
+      setDarkMode(currentTheme === "dark");
+    };
+
+    window.addEventListener("storage", handleThemeChange);
+    window.addEventListener("themeChange", handleThemeChange);
+
+    return () => {
+      window.removeEventListener("storage", handleThemeChange);
+      window.removeEventListener("themeChange", handleThemeChange);
+    };
+  }, []);
 
   useEffect(() => {
     if (language === "ar" || language === "he") {
@@ -250,8 +267,8 @@ const BusinessandMarketing = () => {
   };
 
   const handleCardFlip = (index) => {
-    setFlippedCards(prev => 
-      prev.includes(index) 
+    setFlippedCards(prev =>
+      prev.includes(index)
         ? prev.filter(i => i !== index)
         : [...prev, index]
     );
@@ -283,13 +300,13 @@ const BusinessandMarketing = () => {
       </div>
 
       {/* Business & Marketing Courses Section */}
-      <section className={`py-16 ${darkMode ? "bg-gray-900" : "bg-gray-50"}`}>
+      <section className={`py-16 ${darkMode ? "bg-black" : "bg-gray-50"}`}>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col lg:flex-row gap-12 items-center">
             <div className="flex-1">
               <div className="rounded-2xl overflow-hidden shadow-2xl">
                 <img
-                  src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1015&q=80"
+                  src={image}
                   alt="Business and marketing strategy"
                   className="w-full h-64 lg:h-96 object-cover"
                 />
@@ -319,42 +336,34 @@ const BusinessandMarketing = () => {
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">{t.servicesHeading}</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {t.cards.map((card, idx) => (
-              <div 
+              <div
                 key={idx}
-                className="relative h-96 cursor-pointer"
+                className="relative h-72 cursor-pointer"
                 onClick={() => handleCardFlip(idx)}
               >
-                <div className={`absolute inset-0 w-full h-full transition-all duration-500 transform ${
-                  flippedCards.includes(idx) ? 'rotate-y-180 opacity-0' : 'opacity-100'
-                }`}>
-                  <div className={`h-full rounded-2xl p-6 flex flex-col items-center justify-center text-center border-2 ${
-                    darkMode ? "bg-gray-800 border-sky-500" : "bg-sky-50 border-sky-200"
+                <div className={`absolute inset-0 w-full h-full transition-all duration-500 transform ${flippedCards.includes(idx) ? 'rotate-y-180 opacity-0' : 'opacity-100'
                   }`}>
-                    {idx === 0 && <FaBullhorn className="text-5xl text-sky-500 mb-4" />}
-                    {idx === 1 && <FaChartLine className="text-5xl text-sky-600 mb-4" />}
-                    {idx === 2 && <FaUsers className="text-5xl text-sky-500 mb-4" />}
-                    <h3 className="text-xl font-bold mb-4">{card.frontTitle}</h3>
-                    <p className={darkMode ? "text-gray-300" : "text-gray-600"}>
+                  <div className={`h-full rounded-2xl p-4 flex flex-col items-center justify-center text-center border-2 ${darkMode ? "bg-gray-800 border-sky-500" : "bg-sky-50 border-sky-200"
+                    }`}>
+                    {idx === 0 && <FaBullhorn className="text-3xl text-sky-500 mb-3" />}
+                    {idx === 1 && <FaChartLine className="text-3xl text-sky-600 mb-3" />}
+                    {idx === 2 && <FaUsers className="text-3xl text-sky-500 mb-3" />}
+                    <h3 className="text-lg font-bold mb-3">{card.frontTitle}</h3>
+                    <p className={`text-sm leading-tight ${darkMode ? "text-gray-300" : "text-gray-600"}`}>
                       {card.frontDesc}
                     </p>
-                    <div className="mt-4 text-sm text-sky-500 font-semibold">
-                      {language === 'en' && "Click to learn more →"}
-                      {language === 'ar' && "انقر لمعرفة المزيد →"}
-                      {language === 'he' && "לחץ למידע נוסף →"}
-                    </div>
                   </div>
                 </div>
-                
-                <div className={`absolute inset-0 w-full h-full transition-all duration-500 transform ${
-                  flippedCards.includes(idx) ? 'opacity-100' : 'rotate-y-180 opacity-0'
-                }`}>
-                  <div className={`h-full rounded-2xl p-6 flex flex-col items-center justify-center text-center ${
-                    darkMode ? "bg-sky-600" : "bg-sky-600 text-white"
+
+                <div className={`absolute inset-0 w-full h-full transition-all duration-500 transform ${flippedCards.includes(idx) ? 'opacity-100' : 'rotate-y-180 opacity-0'
                   }`}>
-                    <p className="mb-6">{card.backDesc}</p>
-                    <button className="bg-white text-sky-600 px-6 py-2 rounded-full font-semibold hover:bg-gray-100 transition-colors">
-                      {card.btn}
-                    </button>
+                  <div className={`h-full rounded-2xl p-4 flex flex-col justify-center border-2 ${darkMode ? "bg-gray-700 border-sky-400" : "bg-white border-sky-300"
+                    }`}>
+                    <h3 className="text-lg font-bold text-sky-600 mb-3">{card.frontTitle}</h3>
+                    <p className={`text-sm leading-tight mb-4 ${darkMode ? "text-gray-300" : "text-gray-600"}`}>
+                      {card.backDesc}
+                    </p>
+                    
                   </div>
                 </div>
               </div>
@@ -364,7 +373,7 @@ const BusinessandMarketing = () => {
       </section>
 
       {/* Student Success Spotlight */}
-      <section className={`py-16 ${darkMode ? "bg-gray-900" : "bg-gray-50"}`}>
+      <section className={`py-16 ${darkMode ? "bg-black" : "bg-gray-50"}`}>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col lg:flex-row gap-12 items-center">
             <div className="flex-1">
@@ -372,7 +381,7 @@ const BusinessandMarketing = () => {
               <p className={`text-lg mb-6 leading-relaxed ${darkMode ? "text-gray-300" : "text-gray-600"}`}>
                 {t.spotlightDesc}
               </p>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                 {t.spotlightDetails.map((detail, idx) => (
                   <div key={idx} className="flex flex-col">
@@ -388,15 +397,13 @@ const BusinessandMarketing = () => {
 
               <div className="grid grid-cols-3 gap-4 mb-8">
                 {t.spotlightResults.map((result, idx) => (
-                  <div 
+                  <div
                     key={idx}
-                    className={`text-center p-4 rounded-lg ${
-                      darkMode ? "bg-gray-800" : "bg-white shadow-lg"
-                    }`}
+                    className={`text-center p-4 rounded-lg ${darkMode ? "bg-gray-800" : "bg-white shadow-lg"
+                      }`}
                   >
-                    <div className={`text-2xl font-bold mb-1 ${
-                      darkMode ? "text-sky-400" : "text-sky-600"
-                    }`}>
+                    <div className={`text-2xl font-bold mb-1 ${darkMode ? "text-sky-400" : "text-sky-600"
+                      }`}>
                       {result.value}
                     </div>
                     <div className="text-sm font-medium">
@@ -406,9 +413,8 @@ const BusinessandMarketing = () => {
                 ))}
               </div>
 
-              <div className={`p-6 rounded-lg border-l-4 ${
-                darkMode ? "bg-gray-800 border-sky-400" : "bg-white border-sky-500 shadow-lg"
-              }`}>
+              <div className={`p-6 rounded-lg border-l-4 ${darkMode ? "bg-gray-800 border-sky-400" : "bg-white border-sky-500 shadow-lg"
+                }`}>
                 <blockquote className="italic text-lg mb-4">
                   "{t.spotlightQuote}"
                 </blockquote>
@@ -417,13 +423,16 @@ const BusinessandMarketing = () => {
                 </footer>
               </div>
             </div>
-            
+
             <div className="flex-1">
               <div className="rounded-2xl overflow-hidden shadow-2xl">
-                <img
-                  src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80"
-                  alt="Marketing professional working"
+                <video
+                  src={video}
                   className="w-full h-96 object-cover"
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
                 />
               </div>
             </div>
@@ -435,25 +444,23 @@ const BusinessandMarketing = () => {
       <section className={`py-16 ${darkMode ? "bg-black" : "bg-white"}`}>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">{t.processHeading}</h2>
-          <p className={`text-xl text-center mb-12 max-w-3xl mx-auto ${
-            darkMode ? "text-gray-300" : "text-gray-600"
-          }`}>
+          <p className={`text-xl text-center mb-12 max-w-3xl mx-auto ${darkMode ? "text-gray-300" : "text-gray-600"
+            }`}>
             {t.processSubheading}
           </p>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {t.processSteps.map((step, idx) => (
-              <div 
+              <div
                 key={idx}
-                className={`text-center p-6 rounded-2xl transition-all duration-300 hover:transform hover:scale-105 ${
-                  darkMode ? "bg-gray-800 hover:bg-gray-700" : "bg-sky-50 hover:bg-sky-100"
-                }`}
+                className={`text-center p-4 rounded-2xl transition-all duration-300 hover:transform hover:scale-105 ${darkMode ? "bg-gray-800 hover:bg-gray-700" : "bg-sky-50 hover:bg-sky-100"
+                  }`}
               >
-                <div className="w-16 h-16 bg-sky-500 text-white rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-4">
+                <div className="w-12 h-12 bg-sky-500 text-white rounded-full flex items-center justify-center text-lg font-bold mx-auto mb-3">
                   {step.step}
                 </div>
-                <h3 className="text-xl font-bold mb-4">{step.title}</h3>
-                <p className={darkMode ? "text-gray-300" : "text-gray-600"}>
+                <h3 className="text-lg font-bold mb-3">{step.title}</h3>
+                <p className={`text-sm ${darkMode ? "text-gray-300" : "text-gray-600"}`}>
                   {step.desc}
                 </p>
               </div>
@@ -463,31 +470,28 @@ const BusinessandMarketing = () => {
       </section>
 
       {/* CTA Section */}
-      <section className={`py-16 ${darkMode ? "bg-gray-900" : "bg-gradient-to-br from-sky-50 to-sky-100"}`}>
+      <section className={`py-16 ${darkMode ? "bg-black" : "bg-gradient-to-br from-sky-50 to-sky-100"}`}>
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">{t.ctaHeading}</h2>
-          <p className={`text-xl mb-8 max-w-2xl mx-auto ${
-            darkMode ? "text-gray-300" : "text-gray-600"
-          }`}>
+          <p className={`text-xl mb-8 max-w-2xl mx-auto ${darkMode ? "text-gray-300" : "text-gray-600"
+            }`}>
             {t.ctaDesc}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button
-              className={`px-8 py-4 rounded-full font-bold text-lg transition-all duration-300 ${
-                darkMode 
-                  ? "bg-white text-black hover:bg-gray-200" 
+              className={`px-8 py-4 rounded-full font-bold text-lg transition-all duration-300 ${darkMode
+                  ? "bg-white text-black hover:bg-gray-200"
                   : "bg-sky-600 text-white hover:bg-sky-700"
-              }`}
+                }`}
               onClick={() => handleGetStarted("/services")}
             >
               {t.ctaBtn}
             </button>
             <button
-              className={`px-8 py-4 rounded-full font-bold text-lg border-2 transition-all duration-300 ${
-                darkMode
+              className={`px-8 py-4 rounded-full font-bold text-lg border-2 transition-all duration-300 ${darkMode
                   ? "border-white text-white hover:bg-white hover:text-black"
                   : "border-sky-600 text-sky-600 hover:bg-sky-600 hover:text-white"
-              }`}
+                }`}
               onClick={() => handleGetStarted("/contact")}
             >
               {language === 'en' && "View All Courses"}
@@ -495,9 +499,8 @@ const BusinessandMarketing = () => {
               {language === 'he' && "צפה בכל הקורסים"}
             </button>
           </div>
-          <p className={`mt-6 text-sm ${
-            darkMode ? "text-gray-400" : "text-gray-600"
-          }`}>
+          <p className={`mt-6 text-sm ${darkMode ? "text-gray-400" : "text-gray-600"
+            }`}>
             {language === 'en' && "Real campaign projects • Industry mentorship • ROI-focused training"}
             {language === 'ar' && "مشاريع حملات حقيقية • إرشاد صناعي • تدريب مركز على العائد"}
             {language === 'he' && "פרויקטי קמפיינים אמיתיים • מנטורינג תעשייתי • הכשרה ממוקדת ROI"}

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
-import { useDarkMode } from '../context/Darkmodecontext';
 import { useLanguage } from '../context/LanguageContext';
 import { FaCode, FaLaptopCode, FaGraduationCap } from 'react-icons/fa';
 import video from "../images/web.mp4"
+import image from "../images/lmss1.jpg"
 const translations = {
   en: {
     heroTitle: "Master Web Development with Industry Experts",
@@ -231,10 +231,24 @@ const translations = {
 
 const Webdevelopment = () => {
   const navigate = useNavigate();
-  const { darkMode } = useDarkMode();
   const { language } = useLanguage();
   const t = translations[language] || translations["en"];
   const [flippedCards, setFlippedCards] = useState([]);
+  const [darkMode, setDarkMode] = useState(localStorage.getItem("theme") === "dark");
+
+  useEffect(() => {
+    const updateTheme = () => {
+      const theme = localStorage.getItem("theme");
+      setDarkMode(theme === "dark");
+    };
+    updateTheme();
+    window.addEventListener("themeChange", updateTheme);
+    window.addEventListener("storage", updateTheme);
+    return () => {
+      window.removeEventListener("themeChange", updateTheme);
+      window.removeEventListener("storage", updateTheme);
+    };
+  }, []);
 
   useEffect(() => {
     if (language === "ar" || language === "he") {
@@ -257,7 +271,9 @@ const Webdevelopment = () => {
   };
 
   return (
-    <div className={`min-h-screen ${darkMode ? "bg-black text-white" : "bg-white text-black"}`}>
+    <div className={`min-h-screen transition-colors duration-300 ${
+      darkMode ? "bg-black text-white" : "bg-white text-black"
+    }`}>
       {/* Hero Section */}
       <div className="relative w-full h-screen overflow-hidden flex items-center justify-center">
         <video
@@ -283,28 +299,27 @@ const Webdevelopment = () => {
       </div>
 
       {/* Web Development Courses Section */}
-      <section className={`py-16 ${darkMode ? "bg-gray-900" : "bg-gray-50"}`}>
+      <section className={`py-16 dark:bg-black bg-white`}>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col lg:flex-row gap-12 items-center">
             <div className="flex-1">
               <div className="rounded-2xl overflow-hidden shadow-2xl">
                 <img
-                  src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80"
-                  alt="Web development coding"
+                  src={image}
                   className="w-full h-64 lg:h-96 object-cover"
                 />
               </div>
             </div>
             <div className="flex-1">
               <h2 className="text-3xl md:text-4xl font-bold mb-6">{t.sectionTitle}</h2>
-              <p className={`text-lg mb-6 leading-relaxed ${darkMode ? "text-gray-300" : "text-gray-600"}`}>
+              <p className={`text-lg mb-6 leading-relaxed dark:text-white`}>
                 {t.sectionDesc}
               </p>
               <ul className="space-y-3">
                 {t.sectionList.map((item, idx) => (
                   <li key={idx} className="flex items-start">
-                    <span className={`text-sky-500 mr-3 mt-1 ${darkMode ? "text-sky-400" : ""}`}>✓</span>
-                    <span className={darkMode ? "text-gray-300" : "text-gray-700"}>{item}</span>
+                    <span className={`text-sky-500 mr-3 mt-1 dark:text-white`}>✓</span>
+                    <span className={`dark:text-white`}>{item}</span>
                   </li>
                 ))}
               </ul>
@@ -314,47 +329,41 @@ const Webdevelopment = () => {
       </section>
 
       {/* Learning Paths Section with Flip Cards */}
-      <section className={`py-16 ${darkMode ? "bg-black" : "bg-white"}`}>
+      <section className={`py-10 `}>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">{t.servicesHeading}</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {t.cards.map((card, idx) => (
               <div 
                 key={idx}
-                className="relative h-96 cursor-pointer"
+                className="relative min-h-[280px] cursor-pointer"
                 onClick={() => handleCardFlip(idx)}
               >
                 <div className={`absolute inset-0 w-full h-full transition-all duration-500 transform ${
                   flippedCards.includes(idx) ? 'rotate-y-180 opacity-0' : 'opacity-100'
                 }`}>
-                  <div className={`h-full rounded-2xl p-6 flex flex-col items-center justify-center text-center border-2 ${
+                  <div className={`h-full rounded-2xl p-4 flex flex-col items-center justify-start text-center border-2 ${
                     darkMode ? "bg-gray-800 border-sky-500" : "bg-sky-50 border-sky-200"
                   }`}>
-                    {idx === 0 && <FaCode className="text-5xl text-sky-500 mb-4" />}
-                    {idx === 1 && <FaLaptopCode className="text-5xl text-sky-600 mb-4" />}
-                    {idx === 2 && <FaGraduationCap className="text-5xl text-sky-500 mb-4" />}
-                    <h3 className="text-xl font-bold mb-4">{card.frontTitle}</h3>
-                    <p className={darkMode ? "text-gray-300" : "text-gray-600"}>
+                    {idx === 0 && <FaCode className="text-4xl text-sky-500 mb-3 mt-2" />}
+                    {idx === 1 && <FaLaptopCode className="text-4xl text-sky-600 mb-3 mt-2" />}
+                    {idx === 2 && <FaGraduationCap className="text-4xl text-sky-500 mb-3 mt-2" />}
+                    <h3 className="text-lg font-bold mb-3">{card.frontTitle}</h3>
+                    <p className={`text-sm leading-relaxed ${darkMode ? "text-gray-300" : "text-gray-600"}`}>
                       {card.frontDesc}
                     </p>
-                    <div className="mt-4 text-sm text-sky-500 font-semibold">
-                      {language === 'en' && "Click to learn more →"}
-                      {language === 'ar' && "انقر لمعرفة المزيد →"}
-                      {language === 'he' && "לחץ למידע נוסף →"}
-                    </div>
+                    
                   </div>
                 </div>
                 
                 <div className={`absolute inset-0 w-full h-full transition-all duration-500 transform ${
                   flippedCards.includes(idx) ? 'opacity-100' : 'rotate-y-180 opacity-0'
                 }`}>
-                  <div className={`h-full rounded-2xl p-6 flex flex-col items-center justify-center text-center ${
+                  <div className={`h-full rounded-2xl p-4 flex flex-col items-center justify-center text-center ${
                     darkMode ? "bg-sky-600" : "bg-sky-600 text-white"
                   }`}>
-                    <p className="mb-6">{card.backDesc}</p>
-                    <button className="bg-white text-sky-600 px-6 py-2 rounded-full font-semibold hover:bg-gray-100 transition-colors">
-                      {card.btn}
-                    </button>
+                    <p className="text-sm leading-relaxed mb-4">{card.backDesc}</p>
+                   
                   </div>
                 </div>
               </div>

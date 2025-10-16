@@ -14,7 +14,8 @@ import logo1 from '../images/lmslogo1.jpg';
 import logo2 from '../images/lmslogo2.jpg';
 import logo3 from '../images/lmslogo3.jpg';
 import logo4 from '../images/lmslogo4.jpg';
-
+import std1 from "../images/team3.jpg";
+import std2 from "../images/team4.jpg";
 import logo5 from '../images/lmslogo6.jpg';
 // ImageComponent defined within Home2.js
 const ImageComponent = ({ imageUrl, courseName }) => {
@@ -36,7 +37,7 @@ const stories = [
     id: 1,
     name: "Sarah Chen",
     role: "Frontend Developer at TechCorp",
-    image: "/images/sarah-chen.jpg", // Replace with your image path
+    image: std1, // Replace with your image path
     story: "The courses gave me the skills to transition from marketing to a full-time developer role in under a year.",
     rating: 5,
     achievement: "Secured a 40% salary increase"
@@ -45,7 +46,7 @@ const stories = [
     id: 2,
     name: "David Rodriguez",
     role: "Data Scientist",
-    image: "/images/david-rodriguez.jpg",
+    image: std2,
     story: "The project-based learning approach helped me build a portfolio that impressed my current employer.",
     rating: 5,
     achievement: "Landed a job after 6 months"
@@ -126,7 +127,7 @@ function Home1() {
       creativeSolutionsDesc: "Choose from thousands of courses across technology, business, arts, and personal development.",
       trustedExpertise: "Career Advancement",
       trustedExpertiseDesc: "Gain skills that employers value and advance your career with certified learning programs.",
-      gallerySubtitle: "Course Categories",
+      gallerySubtitle: "About Us",
       galleryTitle: "Explore Our Learning Paths",
       courseProgramming: "Programming & Development",
       courseDataScience: "Data Science & AI",
@@ -134,7 +135,7 @@ function Home1() {
       courseDesign: "Design & Creativity",
       trustedByTitle: "TRUSTED BY LEADING INSTITUTIONS",
       readyToTransform: "Ready to transform your career through education? Join thousands of students who have advanced their skills and achieved their professional goals with our courses.",
-      freeConsultation: "START LEARNING NOW",
+      freeConsultation: "Contact Us",
     },
     ar: {
       heroTitle: "أتقن مهارات جديدة مع دورات بقيادة خبراء",
@@ -215,7 +216,8 @@ function Home1() {
         "Backend with Node.js & Databases",
         "Portfolio Development & Interview Prep"
       ],
-      color: "sky"
+      color: "sky",
+      path:'/webdevelopment'
     },
     {
       id: 2,
@@ -230,7 +232,8 @@ function Home1() {
         "Prototyping & Interaction Design",
         "Build a Professional Design Portfolio"
       ],
-      color: "sky"
+      color: "sky",
+      path:'/uidesign'
     }
   ];
 
@@ -263,7 +266,7 @@ function Home1() {
           <div className="animate-fade-in-scale delay-1000">
             <button
               className="px-8 py-4 border-0 rounded-full text-lg font-bold bg-gradient-to-r from-sky-500 to-sky-600 text-white cursor-pointer transition-all duration-300 hover:from-sky-600 hover:to-sky-700 hover:scale-105"
-              onClick={() => handleGetStarted("/courses")}
+              onClick={() => handleGetStarted("/about")}
             >
               {t.gallerySubtitle}
             </button>
@@ -411,7 +414,7 @@ function Home1() {
                   </div>
                 </div>
 
-                <button className="group w-full bg-gray-900 text-white py-3 rounded-lg font-semibold flex items-center justify-center hover:bg-gray-800 transition-colors">
+                <button className="group w-full bg-gray-900 text-white py-3 rounded-lg font-semibold flex items-center justify-center hover:bg-gray-800 transition-colors" onClick={() => handleGetStarted(path.path)}>
                   Start This Path
                   <FaArrowRight className="ml-2 transition-transform group-hover:translate-x-1" />
                 </button>
@@ -456,7 +459,7 @@ function Home1() {
           <p className="text-xl leading-loose text-center">{t.readyToTransform}</p>
           <button
             className="bg-gradient-to-r from-sky-500 to-sky-600 text-white border-0 rounded px-10 py-4 text-lg font-bold cursor-pointer transition-all duration-300 hover:from-sky-600 hover:to-sky-700 hover:-translate-y-1 hover:shadow-xl self-center"
-            onClick={() => handleGetStarted("/signup")}
+            onClick={() => handleGetStarted("/contact")}
           >
             {t.freeConsultation}
           </button>

@@ -26,28 +26,18 @@ const translations = {
     locationTime: "New York, NY 10001",
     faqsTitle: "AI Tools FAQs",
     mapTitle: "Find Us On The Map",
-    faqs: [
-      {
-        q: "What are AI tools and how can they help my business?",
-        a: "AI tools use artificial intelligence to automate tasks, analyze data, and provide insights, helping businesses improve efficiency, decision-making, and customer experience.",
-      },
-      {
-        q: "Are AI tools secure and compliant?",
-        a: "Yes, our AI tools are built with robust security and compliance features to protect your data and meet industry standards.",
-      },
-      {
-        q: "Do I need technical expertise to use AI tools?",
-        a: "No, our AI tools are designed for ease of use, with intuitive interfaces and support resources for all skill levels.",
-      },
-      {
-        q: "Can AI tools be customized for my business needs?",
-        a: "Absolutely! We offer customization options to tailor AI solutions to your specific requirements and goals.",
-      },
-      {
-        q: "What support is available for AI tools?",
-        a: "Our team provides comprehensive support, including onboarding, troubleshooting, and ongoing guidance to ensure your success with AI tools.",
-      },
-    ],
+    supportTitle: "Student Support & Academic Advising",
+    supportDesc: "Our dedicated academic support team is here to guide you through your learning journey with personalized assistance and expert advice.",
+    academicAdvisingTitle: "Academic Advising",
+    academicAdvisingDesc: "Get personalized course recommendations and career guidance from our certified academic advisors.",
+    academicAdvisingTime: "Mon-Fri, 8am-7pm EST",
+    technicalSupportTitle: "Technical Support",
+    technicalSupportDesc: "24/7 technical assistance for platform issues, course access, and learning tool troubleshooting.",
+    technicalSupportTime: "Available 24/7",
+    careerServicesTitle: "Career Services",
+    careerServicesDesc: "Resume reviews, interview preparation, and job placement assistance for course graduates.",
+    careerServicesTime: "Mon-Fri, 10am-5pm EST",
+    
   },
   ar: {
     heroTitle: "تواصل وابتكر.",
@@ -72,28 +62,18 @@ const translations = {
     locationTime: "نيويورك، NY 10001",
     faqsTitle: "أسئلة شائعة حول أدوات الذكاء الاصطناعي",
     mapTitle: "اعثر علينا على الخريطة",
-    faqs: [
-      {
-        q: "ما هي أدوات الذكاء الاصطناعي وكيف تساعد عملي؟",
-        a: "تستخدم أدوات الذكاء الاصطناعي الأتمتة وتحليل البيانات وتقديم الرؤى لتحسين الكفاءة واتخاذ القرار وتجربة العملاء.",
-      },
-      {
-        q: "هل أدوات الذكاء الاصطناعي آمنة ومتوافقة؟",
-        a: "نعم، أدواتنا مبنية بميزات أمان وامتثال قوية لحماية بياناتك وتلبية المعايير.",
-      },
-      {
-        q: "هل أحتاج خبرة تقنية لاستخدام أدوات الذكاء الاصطناعي؟",
-        a: "لا، أدواتنا سهلة الاستخدام مع واجهات بسيطة ودعم لجميع المستويات.",
-      },
-      {
-        q: "هل يمكن تخصيص أدوات الذكاء الاصطناعي لاحتياجات عملي؟",
-        a: "بالتأكيد! نقدم خيارات تخصيص لتناسب متطلباتك وأهدافك.",
-      },
-      {
-        q: "ما الدعم المتوفر لأدوات الذكاء الاصطناعي؟",
-        a: "فريقنا يقدم دعم شامل، من التدريب إلى الحلول والمساعدة المستمرة لضمان نجاحك.",
-      },
-    ],
+    supportTitle: "دعم الطلاب والإرشاد الأكاديمي",
+    supportDesc: "فريق الدعم الأكاديمي المخصص لدينا هنا لإرشادك خلال رحلة التعلم مع المساعدة الشخصية والمشورة الخبيرة.",
+    academicAdvisingTitle: "الإرشاد الأكاديمي",
+    academicAdvisingDesc: "احصل على توصيات شخصية للدورات وإرشادات مهنية من مستشارينا الأكاديميين المعتمدين.",
+    academicAdvisingTime: "الاثنين-الجمعة، 8ص-7م بتوقيت شرق أمريكا",
+    technicalSupportTitle: "الدعم الفني",
+    technicalSupportDesc: "مساعدة فنية على مدار الساعة لمشاكل المنصة والوصول للدورات واستكشاف أخطاء أدوات التعلم.",
+    technicalSupportTime: "متاح 24/7",
+    careerServicesTitle: "خدمات التوظيف",
+    careerServicesDesc: "مراجعة السير الذاتية وإعداد المقابلات ومساعدة التوظيف لخريجي الدورات.",
+    careerServicesTime: "الاثنين-الجمعة، 10ص-5م بتوقيت شرق أمريكا",
+    
   },
   he: {
     heroTitle: "התחבר וצור.",
@@ -118,28 +98,18 @@ const translations = {
     locationTime: "ניו יורק, NY 10001",
     faqsTitle: "שאלות נפוצות על כלי AI",
     mapTitle: "מצאו אותנו על המפה",
-    faqs: [
-      {
-        q: "מהם כלי AI וכיצד הם יכולים לעזור לעסק שלי?",
-        a: "כלי AI משתמשים בבינה מלאכותית לאוטומציה, ניתוח נתונים ומתן תובנות לשיפור יעילות, קבלת החלטות וחווית לקוח.",
-      },
-      {
-        q: "האם כלי AI מאובטחים ועומדים בתקנים?",
-        a: "כן, הכלים שלנו כוללים אבטחה ועמידה בתקנים כדי להגן על הנתונים שלך.",
-      },
-      {
-        q: "האם צריך ידע טכני כדי להשתמש בכלי AI?",
-        a: "לא, הכלים שלנו פשוטים לשימוש עם ממשק ידידותי ותמיכה לכל הרמות.",
-      },
-      {
-        q: "האם ניתן להתאים אישית את כלי ה-AI לצרכים שלי؟",
-        a: "בהחלט! אנו מציעים התאמה אישית לפי דרישותיך ומטרותיך.",
-      },
-      {
-        q: "איזה תמיכה זמינה לכלי AI؟",
-        a: "הצוות שלנו מספק תמיכה מלאה, כולל הדרכה, פתרון בעיות וליווי מתמשך להצלחה שלך.",
-      },
-    ],
+    supportTitle: "תמיכה לסטודנטים וייעוץ אקדמי",
+    supportDesc: "צוות התמיכה האקדמית המסור שלנו כאן כדי להדריך אותך במהלך מסע הלמידה עם סיוע אישי וייעוץ מומחה.",
+    academicAdvisingTitle: "ייעוץ אקדמי",
+    academicAdvisingDesc: "קבל המלצות קורס מותאמות אישית והדרכה מקצועית מהיועצים האקדמיים המוסמכים שלנו.",
+    academicAdvisingTime: "ב'-ו', 8:00-19:00 שעון ניו-יורק",
+    technicalSupportTitle: "תמיכה טכנית",
+    technicalSupportDesc: "סיוע טכני 24/7 לבעיות פלטפורמה, גישה לקורסים ופתרון בעיות בכלי למידה.",
+    technicalSupportTime: "זמין 24/7",
+    careerServicesTitle: "שירותי קריירה",
+    careerServicesDesc: "סקירת קורות חיים, הכנה לראיונות וסיוע בהשמה לבוגרי הקורסים.",
+    careerServicesTime: "ב'-ו', 10:00-17:00 שעון ניו-יורק",
+    
   },
 };
 
@@ -196,8 +166,8 @@ function ContactUs() {
       </section>
       {/* End Hero Section */}
       <section className="w-full py-20 px-4 bg-white dark:bg-black flex items-center justify-center">
-        <div className="max-w-3xl w-full bg-white dark:bg-black rounded-2xl shadow-xl p-8 border border-purple-200 dark:border-purple-700">
-          <h2 className="text-3xl font-bold text-purple-700 dark:text-purple-300 mb-6 text-center">
+        <div className="max-w-3xl w-full bg-white dark:bg-black rounded-2xl shadow-xl p-8 border border-sky-200 dark:border-sky-700">
+          <h2 className="text-3xl font-bold text-sky-600 dark:text-sky-400 mb-6 text-center">
             {t.formTitle}
           </h2>
           <form className="space-y-6">
@@ -212,8 +182,8 @@ function ContactUs() {
                 type="text"
                 id="name"
                 name="name"
-                placeholder="Enter your name"
-                className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+                placeholder="Enter your full name"
+                className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-sky-500"
                 required
               />
             </div>
@@ -228,8 +198,8 @@ function ContactUs() {
                 type="email"
                 id="email"
                 name="email"
-                placeholder="Enter your email"
-                className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+                placeholder="Enter your email address"
+                className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-sky-500"
                 required
               />
             </div>
@@ -245,7 +215,7 @@ function ContactUs() {
                 id="phone"
                 name="phone"
                 placeholder="Enter your phone number"
-                className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+                className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-sky-500"
               />
             </div>
             <div>
@@ -260,7 +230,7 @@ function ContactUs() {
                 id="company"
                 name="company"
                 placeholder="Enter your company name"
-                className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+                className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-sky-500"
               />
             </div>
             <div>
@@ -275,7 +245,7 @@ function ContactUs() {
                 id="subject"
                 name="subject"
                 placeholder="Enter the subject"
-                className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+                className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-sky-500"
                 required
               />
             </div>
@@ -291,122 +261,83 @@ function ContactUs() {
                 name="message"
                 rows="5"
                 placeholder="Type your message here"
-                className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+                className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-sky-500"
                 required
               ></textarea>
             </div>
             <button
               type="submit"
-              className="w-full py-3 bg-purple-700 text-white font-bold rounded-lg shadow hover:bg-purple-800 transition-all text-lg"
+              className="w-full py-3 bg-sky-600 text-white font-bold rounded-lg shadow hover:bg-sky-700 transition-all text-lg"
             >
               {t.send}
             </button>
           </form>
         </div>
       </section>
-      <section className="w-full py-5 px-4 bg-gradient-to-b from-white to-purple-50 dark:from-black dark:to-purple-900">
-        <div className="w-full">
-          <h2 className="text-3xl font-bold text-purple-700 dark:text-purple-300 mb-8 text-center">
-            {t.contactInfo}
+     
+
+      {/* Student Support & Academic Advising Section */}
+      <section className="w-full py-16 px-4 bg-sky-50 dark:bg-sky-900">
+        <div className="w-full max-w-6xl mx-auto">
+          <h2 className="text-3xl font-bold text-sky-600 dark:text-sky-400 mb-4 text-center">
+            {t.supportTitle}
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full">
-            <div className="bg-purple-700 dark:bg-purple-900 rounded-2xl shadow-xl p-8 flex flex-col items-center border border-purple-200 dark:border-purple-700">
-              <i className="fas fa-phone text-3xl text-white dark:text-purple-300 mb-3"></i>
-              <h3 className="text-lg font-semibold mb-1 text-white dark:text-purple-200">
-                {t.phoneLabel}
+          <p className="text-lg text-gray-700 dark:text-gray-300 mb-12 text-center max-w-3xl mx-auto">
+            {t.supportDesc}
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="bg-white dark:bg-black rounded-2xl shadow-xl p-8 flex flex-col items-center border border-sky-200 dark:border-sky-700 hover:shadow-2xl transition-shadow">
+              <i className="fas fa-graduation-cap text-4xl text-sky-600 dark:text-sky-400 mb-4"></i>
+              <h3 className="text-xl font-bold mb-3 text-sky-600 dark:text-sky-400 text-center">
+                {t.academicAdvisingTitle}
               </h3>
-              <p className="text-purple-100 dark:text-purple-300 mb-1">
-                {t.phoneValue}
+              <p className="text-gray-700 dark:text-gray-300 mb-4 text-center leading-relaxed">
+                {t.academicAdvisingDesc}
               </p>
-              <span className="text-sm text-purple-200 dark:text-purple-400">
-                {t.phoneTime}
+              <span className="text-sm text-sky-600 dark:text-sky-400 font-medium px-3 py-1 bg-sky-100 dark:bg-sky-800 rounded-full">
+                {t.academicAdvisingTime}
               </span>
             </div>
-            <div className="bg-purple-700 dark:bg-purple-900 rounded-2xl shadow-xl p-8 flex flex-col items-center border border-purple-200 dark:border-purple-700">
-              <i className="fas fa-envelope text-3xl text-white dark:text-purple-300 mb-3"></i>
-              <h3 className="text-lg font-semibold mb-1 text-white dark:text-purple-200">
-                {t.emailLabel}
+
+            <div className="bg-white dark:bg-black rounded-2xl shadow-xl p-8 flex flex-col items-center border border-sky-200 dark:border-sky-700 hover:shadow-2xl transition-shadow">
+              <i className="fas fa-tools text-4xl text-sky-600 dark:text-sky-400 mb-4"></i>
+              <h3 className="text-xl font-bold mb-3 text-sky-600 dark:text-sky-400 text-center">
+                {t.technicalSupportTitle}
               </h3>
-              <p className="text-purple-100 dark:text-purple-300 mb-1">
-                {t.emailValue}
+              <p className="text-gray-700 dark:text-gray-300 mb-4 text-center leading-relaxed">
+                {t.technicalSupportDesc}
               </p>
-              <span className="text-sm text-purple-200 dark:text-purple-400">
-                {t.emailTime}
+              <span className="text-sm text-sky-600 dark:text-sky-400 font-medium px-3 py-1 bg-sky-100 dark:bg-sky-800 rounded-full">
+                {t.technicalSupportTime}
               </span>
             </div>
-            <div className="bg-purple-700 dark:bg-purple-900 rounded-2xl shadow-xl p-8 flex flex-col items-center border border-purple-200 dark:border-purple-700">
-              <i className="fas fa-map-marker-alt text-3xl text-white dark:text-purple-300 mb-3"></i>
-              <h3 className="text-lg font-semibold mb-1 text-white dark:text-purple-200">
-                {t.locationLabel}
+
+            <div className="bg-white dark:bg-black rounded-2xl shadow-xl p-8 flex flex-col items-center border border-sky-200 dark:border-sky-700 hover:shadow-2xl transition-shadow">
+              <i className="fas fa-briefcase text-4xl text-sky-600 dark:text-sky-400 mb-4"></i>
+              <h3 className="text-xl font-bold mb-3 text-sky-600 dark:text-sky-400 text-center">
+                {t.careerServicesTitle}
               </h3>
-              <p className="text-purple-100 dark:text-purple-300 mb-1">
-                {t.locationValue}
+              <p className="text-gray-700 dark:text-gray-300 mb-4 text-center leading-relaxed">
+                {t.careerServicesDesc}
               </p>
-              <span className="text-sm text-purple-200 dark:text-purple-400">
-                {t.locationTime}
+              <span className="text-sm text-sky-600 dark:text-sky-400 font-medium px-3 py-1 bg-sky-100 dark:bg-sky-800 rounded-full">
+                {t.careerServicesTime}
               </span>
             </div>
           </div>
         </div>
       </section>
-      <section className="w-full py-16 px-4 bg-white dark:bg-black">
-        <div className="w-full max-w-4xl mx-auto">
-          <h2 className="text-3xl font-bold text-purple-700 dark:text-purple-300 mb-8 text-center">
-            {t.faqsTitle}
-          </h2>
-          <div className="space-y-6">
-            {t.faqs.map((faq, idx) => (
-              <div
-                key={idx}
-                className="bg-purple-50 dark:bg-purple-900 rounded-2xl shadow p-6 border border-purple-200 dark:border-purple-700"
-              >
-                <button
-                  className="w-full text-left flex items-center justify-between focus:outline-none"
-                  onClick={() =>
-                    setOpenFaq(openFaq === idx ? null : idx)
-                  }
-                >
-                  <span className="text-lg font-semibold text-purple-700 dark:text-purple-300 mb-2">
-                    {faq.q}
-                  </span>
-                  <span
-                    className={`ml-4 transition-transform ${
-                      openFaq === idx ? "rotate-90" : ""
-                    }`}
-                  >
-                    <svg
-                      width="24"
-                      height="24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <polyline points="6 9 12 15 18 9" />
-                    </svg>
-                  </span>
-                </button>
-                {openFaq === idx && (
-                  <div className="mt-4 text-gray-700 dark:text-gray-200 animate-fade-in">
-                    {faq.a}
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      
       <section className="w-full py-16 px-0 bg-white dark:bg-black">
         <div className="w-full">
-          <h2 className="text-3xl font-bold text-purple-700 dark:text-purple-300 mb-8 text-center">
+          <h2 className="text-3xl font-bold text-sky-600 dark:text-sky-400 mb-8 text-center">
             {t.mapTitle}
           </h2>
-          <div className="rounded-2xl overflow-hidden shadow-xl border border-purple-200 dark:border-purple-700 w-full">
+          <div className="rounded-2xl overflow-hidden shadow-xl border border-sky-200 dark:border-sky-700 w-full">
             <img
               src={map}
               alt="Company Location Map"
-              className="w-full h-[300px] object-cover rounded-2xl shadow-xl border border-purple-200 dark:border-purple-700"
+              className="w-full h-[300px] object-cover rounded-2xl shadow-xl border border-sky-200 dark:border-sky-700"
             />
           </div>
         </div>

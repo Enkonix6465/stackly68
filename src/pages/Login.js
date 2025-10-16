@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import loginback from '../images/background-login.jpg';
+import loginback from '../images/lmsbg.jpg';
 import logo from '../images/logo.png';
 
 const translations = {
